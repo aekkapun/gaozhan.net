@@ -6,15 +6,15 @@
 @import "../../../../vendor/bower-asset/bootstrap/less/navbar";
 @import "../../../../vendor/bower-asset/bootstrap/less/grid";
 @import "../../../../vendor/bower-asset/bootstrap/less/buttons";
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500|Rubik:400,500');
+//@import url('https://fonts.googleapis.com/css?family=Roboto:400,500|Rubik:400,500');
 @import (reference) "../../../../vendor/bower-asset/font-awesome/less/font-awesome";
 
 .font-primary() {
-  font-family: 'Roboto', sans-serif;
+  font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
 .font-secondary() {
-  font-family: 'Rubik', sans-serif;
+  font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
 @primary-blue-color: #2B70AB;
@@ -96,6 +96,8 @@ a {
       vertical-align: middle;
       line-height: 4rem;
       font-size: 17pt;
+      font-weight: bold;
+      font-style: italic;
       &:hover {
         background-color: @dark-blue-color;
       }
@@ -106,7 +108,9 @@ a {
         display: inline-block;
         float: left;
         margin: 0 10px 0 0;
-        background-image: url("/img/yii-logo.png");
+        background-image: url("/favicon.png");
+        background-size: contain;
+        background-repeat: no-repeat;
       }
     }
   }
