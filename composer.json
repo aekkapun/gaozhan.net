@@ -53,10 +53,15 @@
             ]
         }
     },
-    "repositories": [
-    {
-        "type": "composer",
-        "url": "https://asset-packagist.org"
+  "repositories": {
+    "asset": {
+      "type": "composer",
+      "url": "https://asset-packagist.cn"
+    },
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
     }
-]
+  }
+
 }
