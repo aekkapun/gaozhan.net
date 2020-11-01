@@ -89,7 +89,7 @@ return [
     'Upload an image' => '上传一张图片',
     'Upload screenshots' => '上传截屏',
     'User ID' => '用户 ID',
-    'View  {n, plural, one{one more project} other{# more projects}}' => '浏览 {n, plural, one{# проект} few{# проекта} many{# проектов} other{# проектов}}',
+    'View  {n, plural, one{one more project} other{# more projects}}' => '浏览 {n, plural, one{# 更多项目} few{# 更多项目} many{# 更多项目} other{# 更多项目}}',
     'Yii Version' => 'Yii 版本',
     'You can not delete this project.' => '不能删除此项目.',
     'You can not restore a deleted project.' => '无法恢复已删除的项目.',
@@ -97,6 +97,6 @@ return [
     'You can only delete a project from a draft.' => '只能从草稿中删除项目.',
     'You can upload up to 5 images. The first image will be used as a main preview of your project, while others will be displayed on the project details page' => '你最多可以上传5张图片. 第一个图像将用作项目的主预览, 而其他图像将显示在项目详细信息页面上.',
     'You have no bookmarked projects yet.' => '你还没有书签项目.',
-    '{n, plural, one{# project} other{# projects}} made with {link}' => '{n,plural,one{# проект сделан} few{# проекта сделано} many{# проектов сделано} other{# проектов сделано}} на {link}',
+    '{n, plural, one{# project} other{# projects}} made with {link}' => '{n,plural,one{# 项目} few{# 项目} many{# 项目} other{# 项目}} 基于 {link}',
     'You did not save the image. Are you sure you want to continue?' => '您没有保存图像. 确定要继续吗?',
 ];

@@ -49,5 +49,5 @@ return [
     'User with the same email as in {client} account already exists but isn\'t linked to it. Login using email first to link it.' => '与{client}帐户中具有相同电子邮件的用户已存在,但未绑定到该用户.请使用该电子邮件登录后绑定它.',
     'Username' => '用户名',
     'or' => '或',
-    'reset it' => 'восстановить его',
+    'reset it' => '重置它',
 ];
