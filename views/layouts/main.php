@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?> - YiiPowered</title>
+    <title><?= Html::encode($this->title) ?> - 高站 - 高质量网站推荐</title>
     <link rel="alternate" type="application/rss+xml" title="YiiPowered" href="<?= \yii\helpers\Url::to(['project/rss'], true)?>"/>
     <?php $this->head() ?>
 </head>
@@ -31,7 +31,7 @@ AppAsset::register($this);
         <div class="content">
             <?php
             NavBar::begin([
-                'brandLabel' => '<span class="yii-logo"></span> YiiPowered',
+                'brandLabel' => '<span class="yii-logo"></span> 高站',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
