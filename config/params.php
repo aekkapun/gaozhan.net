@@ -5,12 +5,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\UrlNormalizer;
 
 $languages = [
+    'zh' => ['zh-CN', '简体中文'],
     'en' => ['en-US', 'English'],
-    'fr' => ['fr-FR', 'Français'],
-    'ru' => ['ru-RU', 'Русский'],
-    'pl' => ['pl-PL', 'Polski'],
-    'vi' => ['vi-VN', 'Tiếng Việt'],
-    'de' => ['de-DE', 'Deutsch'],
 ];
 
 return [
