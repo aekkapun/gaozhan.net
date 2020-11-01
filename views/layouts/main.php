@@ -21,7 +21,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?> - 高站 - 高质量网站推荐</title>
-    <link rel="alternate" type="application/rss+xml" title="YiiPowered" href="<?= \yii\helpers\Url::to(['project/rss'], true)?>"/>
+    <link rel="alternate" type="application/rss+xml" title="高站" href="<?= \yii\helpers\Url::to(['project/rss'], true)?>"/>
     <?php $this->head() ?>
 </head>
 <body>
@@ -31,7 +31,7 @@ AppAsset::register($this);
         <div class="content">
             <?php
             NavBar::begin([
-                'brandLabel' => '<span class="yii-logo"></span> 高站',
+                'brandLabel' => '<span class="yii-logo"></span>高站',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -132,19 +132,17 @@ AppAsset::register($this);
         <footer>
             <div class="container">
                 <div class="left">
-                    &copy; YiiPowered <?= date('Y') ?> |
-                    <a href="https://twitter.com/yiipowered">Twitter</a> |
+                    &copy; 高站 <?= date('Y') ?> |
+
                     <?= Html::a(Yii::t('app', 'About'), ['/site/about']) ?>
                 </div>
 
                 <div class="right">
-                    <?= Yii::powered() ?>
+                    <?= Yii::powered() ?>  | <a href="https://www.bestyii.com">Yii 中文社区</a>
                 </div>
             </div>
         </footer>
     </div>
-
-    <?php GoogleAnalytics::track('UA-96041959-1') ?>
 
 <?php $this->endBody() ?>
 </body>
