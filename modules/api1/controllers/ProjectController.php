@@ -20,6 +20,21 @@ use yii\web\UploadedFile;
 
 class ProjectController extends Controller
 {
+
+    /**
+     * @inheritdoc
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'update' => ['PUT', 'PATCH'],
+            'vote' => ['PUT', 'PATCH'],
+            'delete' => ['DELETE'],
+        ];
+    }
+
     /**
      * @return \yii\data\ActiveDataProvider
      * @throws BadRequestHttpException
@@ -36,12 +51,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return Project
+     * @param string $uuid
+     * @return Project|array|\yii\db\ActiveRecord
      */
-    public function actionView($id)
+    public function actionView($uuid)
     {
-        return Project::find()->where(['id' => $id])->published()->one();
+        return Project::find()->where(['uuid' => $uuid])->published()->one();
     }
 
     public function actionCreate()
@@ -56,20 +71,21 @@ class ProjectController extends Controller
                 throw new ServerErrorHttpException('Unable to save project: ' . json_encode($model->getErrors()));
             }
         }
-
+        $model->refresh();
+        return $model;
         Yii::$app->getResponse()->setStatusCode(201);
 
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return string|Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionScreenshots($id)
+    public function actionScreenshots($uuid)
     {
-        $model = $this->findProject(['id' => $id]);
+        $model = $this->findProject(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($model)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
@@ -80,9 +96,9 @@ class ProjectController extends Controller
         }
 
         $imageUploadForm = null;
-        $imageUploadForm = new ImageUploadForm($id);
-        if ($imageUploadForm->load(Yii::$app->request->post(), '') ) {
-            $imageUploadForm->file = UploadedFile::getInstanceByName( 'file');
+        $imageUploadForm = new ImageUploadForm($model->id);
+        if ($imageUploadForm->load(Yii::$app->request->post(), '')) {
+            $imageUploadForm->file = UploadedFile::getInstanceByName('file');
             if (!$imageUploadForm->upload()) {
                 throw new ServerErrorHttpException('Unable to save image: ' . json_encode($imageUploadForm->getErrors()));
             }
@@ -95,20 +111,20 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      *
      * @throws ForbiddenHttpException
      * @throws ServerErrorHttpException
      * @throws UnauthorizedHttpException
      */
-    public function actionUpdate($id)
+    public function actionUpdate($uuid)
     {
         $user = $this->getCurrentUser();
         if (!$user) {
             throw new UnauthorizedHttpException('User should be authorized in order to manage project.');
         }
 
-        $project = UserPermissions::canManageProjects() ? $this->findProject($id) : $this->findProject($id, $user);
+        $project = UserPermissions::canManageProjects() ? $this->findProject(['uuid' => $uuid]) : $this->findProject(['uuid' => $uuid], $user);
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
         }
@@ -123,14 +139,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param sgring $uuid
      *
      * @return array
      * @throws NotFoundHttpException
      * @throws ServerErrorHttpException
      * @throws UnauthorizedHttpException
      */
-    public function actionVote($id)
+    public function actionVote($uuid)
     {
         $user = $this->getCurrentUser();
         if (!$user) {
@@ -138,7 +154,7 @@ class ProjectController extends Controller
         }
 
         $project = Project::find()
-            ->andWhere(['id' => $id])
+            ->andWhere(['uuid' => $uuid])
             ->published()
             ->limit(1)
             ->one();
@@ -168,20 +184,20 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      *
      * @throws ForbiddenHttpException
      * @throws ServerErrorHttpException
      * @throws UnauthorizedHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete($uuid)
     {
         $user = $this->getCurrentUser();
         if (!$user) {
             throw new UnauthorizedHttpException('User should be authorized in order to manage project.');
         }
 
-        $project = UserPermissions::canManageProjects() ? $this->findProject($id) : $this->findProject($id, $user);
+        $project = UserPermissions::canManageProjects() ? $this->findProject(['uuid' => $uuid]) : $this->findProject(['uuid' => $uuid], $user);
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not delete this project.'));
         }
@@ -193,31 +209,18 @@ class ProjectController extends Controller
         Yii::$app->getResponse()->setStatusCode(204);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'update' => ['PUT', 'PATCH'],
-            'vote' => ['PUT', 'PATCH'],
-            'delete' => ['DELETE'],
-        ];
-    }
 
     /**
-     * @param int $projectId
+     * @param array $condition
      * @param User|null $user
      *
-     * @return Project
+     * @return Project|array|\yii\db\ActiveRecord
      * @throws NotFoundHttpException
      */
-    protected function findProject($projectId, $user = null)
+    protected function findProject($condition, $user = null)
     {
         $projectQuery = Project::find()
-            ->where(['id' => $projectId])
+            ->where($condition)
             ->available()
             ->limit(1);
 

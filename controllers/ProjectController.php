@@ -186,7 +186,7 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $notifier = new Notifier(new NewProjectNotification($model));
             $notifier->sendEmails();
-            return $this->redirect(['screenshots', 'id' => $model->id]);
+            return $this->redirect(['screenshots', 'uuid' => $model->uuid]);
         }
 
         return $this->render('create', [
@@ -214,7 +214,7 @@ class ProjectController extends Controller
         $feed->setManagingEditor('sam@rmcreative.ru', 'Alexander Makarov');
 
         foreach ($projects as $project) {
-            $url = Url::to(['project/view', 'id' => $project->id, 'slug' => $project->slug], true);
+            $url = Url::to(['project/view', 'uuid' => $project->uuid, 'slug' => $project->slug], true);
             $item = new Item();
             $item->title = $project->title;
             $item->link = $url;
@@ -246,14 +246,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return string|Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
+    public function actionUpdate($uuid)
     {
-        $model = $this->findModel(['id' => $id]);
+        $model = $this->findModel(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($model)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
@@ -264,7 +264,7 @@ class ProjectController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['screenshots', 'id' => $model->id]);
+            return $this->redirect(['screenshots', 'uuid' => $model->uuid]);
         }
 
         return $this->render('update', [
@@ -273,14 +273,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return string|Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionScreenshots($id)
+    public function actionScreenshots($uuid)
     {
-        $model = $this->findModel(['id' => $id]);
+        $model = $this->findModel(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($model)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
@@ -293,7 +293,7 @@ class ProjectController extends Controller
         $imageUploadForm = null;
 
         if (UserPermissions::canManageProject($model)) {
-            $imageUploadForm = new ImageUploadForm($id);
+            $imageUploadForm = new ImageUploadForm($model->id);
             if ($imageUploadForm->load(Yii::$app->request->post())) {
                 $imageUploadForm->file = UploadedFile::getInstance($imageUploadForm, 'file');
                 if ($imageUploadForm->upload()) {
@@ -309,14 +309,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionPreview($id)
+    public function actionPreview($uuid)
     {
         $project = $this->findModel([
-            'id' => $id,
+            'uuid' => $uuid,
         ]);
 
         return $this->render('preview', [
@@ -325,14 +325,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionPublish($id)
+    public function actionPublish($uuid)
     {
-        $project = $this->findModel(['id' => $id]);
+        $project = $this->findModel(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
@@ -349,19 +349,19 @@ class ProjectController extends Controller
             }
         }
 
-        return $this->redirect(['view', 'id' => $project->id, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      *
      * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionDraft($id)
+    public function actionDraft($uuid)
     {
-        $project = $this->findModel(['id' => $id]);
+        $project = $this->findModel(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
@@ -378,21 +378,21 @@ class ProjectController extends Controller
             }
         }
 
-        return $this->redirect(['view', 'id' => $project->id, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
     }
 
     /**
      * Delete project by ID.
      *
-     * @param int $id
+     * @param string $uuid
      *
      * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete($uuid)
     {
-        $project = $this->findModel(['id' => $id]);
+        $project = $this->findModel(['uuid' => $uuid]);
 
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not delete this project.'));
@@ -415,23 +415,23 @@ class ProjectController extends Controller
             $session->addFlash('error', Html::errorSummary($project, ['showAllErrors' => true]));
         }
         
-        return $this->redirect(['view', 'id' => $project->id, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @param string $slug
      * @return string|Response
      * @throws NotFoundHttpException
      */
-    public function actionView($id, $slug)
+    public function actionView($uuid, $slug)
     {
         $project = $this->findModel([
-            'id' => $id,
+            'uuid' => $uuid,
         ]);
 
         if ($project->slug !== $slug) {
-            return $this->redirect(['view', 'id' => $id, 'slug' => $project->slug], 301);
+            return $this->redirect(['view', 'uuid' => $uuid, 'slug' => $project->slug], 301);
         }
 
         return $this->render('view', [
@@ -561,7 +561,7 @@ class ProjectController extends Controller
             Yii::$app->session->setFlash('error', Yii::t('comment', 'Failed to delete comment.'));
         }
         
-        $backUrl = Yii::$app->request->referrer ?: Url::to(['view', 'id' => $project->id, 'slug' => $project->slug]);
+        $backUrl = Yii::$app->request->referrer ?: Url::to(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
         
         return $this->redirect($backUrl);
     }

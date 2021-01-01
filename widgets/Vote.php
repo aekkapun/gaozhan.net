@@ -51,7 +51,7 @@ class Vote extends Widget
             Html::icon('chevron-up'),
             [
                 'data-id' => $this->project->id,
-                'data-endpoint' => Url::to(['/api1/project/vote', 'id' => $this->project->id]),
+                'data-endpoint' => Url::to(['/api1/project/vote', 'uuid' => $this->project->uuid]),
                 'data-value' => VoteModel::VALUE_UP,
                 'class' => $buttonClass[VoteModel::VALUE_UP],
                 'title' => Yii::t('vote', 'Up'),
@@ -62,7 +62,7 @@ class Vote extends Widget
             'span',
             Html::icon('chevron-down'),
             [
-                'data-endpoint' => Url::to(['/api1/project/vote', 'id' => $this->project->id]),
+                'data-endpoint' => Url::to(['/api1/project/vote', 'uuid' => $this->project->uuid]),
                 'data-value' => VoteModel::VALUE_DOWN,
                 'class' => $buttonClass[VoteModel::VALUE_DOWN],
                 'title' => Yii::t('vote', 'Down'),

@@ -24,6 +24,7 @@ use yii\helpers\Url;
  * This is the model class for table "{{%project}}".
  *
  * @property integer $id
+ * @property string $uuid
  * @property string $title
  * @property string $slug
  * @property string $url
@@ -192,6 +193,11 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
     public static function find()
     {
         return new ProjectQuery(static::class);
+    }
+
+    public static function findByUUID($uuid)
+    {
+        return self::find()->where(['uuid' => $uuid])->limit(1)->one();
     }
 
     /**

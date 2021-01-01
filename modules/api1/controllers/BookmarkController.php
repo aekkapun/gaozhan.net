@@ -4,14 +4,29 @@ namespace app\modules\api1\controllers;
 
 use app\modules\api1\components\Controller;
 use app\modules\api1\models\Bookmark;
+use app\modules\api1\models\Project;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 
 class BookmarkController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'delete' => ['DELETE'],
+        ];
+    }
+
+
     /**
      * @return ActiveDataProvider
      * @throws UnauthorizedHttpException
@@ -42,12 +57,13 @@ class BookmarkController extends Controller
         }
 
         $request = Yii::$app->getRequest();
-        $id = $request->getBodyParam('id');
-        $bookmark = $this->findBookmark($id, $user->id, false);
+        $projectUUID = $request->getBodyParam('uuid');
+        $project = Project::findByUUID($projectUUID);
+        $bookmark = $this->findBookmark($project->id, $user->id, false);
 
         if (!$bookmark) {
             $bookmark = new Bookmark();
-            $bookmark->project_id = $id;
+            $bookmark->project_id = $project->id;
             if (!$bookmark->save()) {
                 throw new ServerErrorHttpException('Unable to save bookmark: ' . json_encode($bookmark->getErrors()));
             }
@@ -58,7 +74,7 @@ class BookmarkController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @throws NotFoundHttpException
      * @throws ServerErrorHttpException
      * @throws UnauthorizedHttpException
@@ -66,31 +82,19 @@ class BookmarkController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete($uuid)
     {
         $user = $this->getCurrentUser();
         if (!$user) {
             throw new UnauthorizedHttpException('User should be authorized in order to manage bookmarks.');
         }
-
-        $bookmark = $this->findBookmark($id, $user->id);
+        $project = Project::findByUUID($uuid);
+        $bookmark = $this->findBookmark($project->id, $user->id);
         if ($bookmark->delete() === false) {
             throw new ServerErrorHttpException('Failed to delete bookmark.');
         }
 
         Yii::$app->getResponse()->setStatusCode(204);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'create' => ['POST'],
-            'delete' => ['DELETE'],
-        ];
     }
 
     /**

@@ -16,10 +16,10 @@ $this->title = Yii::t('project', 'Update project {title}', [
             <?= Yii::t('project', 'General info') ?>
         </li>
         <li data-step="2">
-            <?= Html::a(Yii::t('project', 'Screenshots'), ['project/screenshots', 'id' => $model->id]) ?>
+            <?= Html::a(Yii::t('project', 'Screenshots'), ['project/screenshots', 'uuid' => $model->uuid]) ?>
         </li>
         <li data-step="3" class="progress__last">
-            <?= Html::a(Yii::t('project', 'Preview & Approve'), ['project/preview', 'id' => $model->id]) ?>
+            <?= Html::a(Yii::t('project', 'Preview & Approve'), ['project/preview', 'uuid' => $model->uuid]) ?>
         </li>
     </ol>
 

@@ -1,10 +1,11 @@
 <?php
+
 use yii\web\UrlRule;
 
 return [
     'bookmarks' => 'project/bookmarks',
     'projects' => 'project/list',
-    'projects/<id:\d+>/<slug>' => 'project/view',
+    'projects/<uuid:\w+>/<slug>' => 'project/view',
     'top-100' => 'project/top-projects',
     'user' => 'user/view',
 
@@ -20,9 +21,19 @@ return [
     [
         'class' => \yii\rest\UrlRule::class,
         'controller' => ['1.0/projects' => 'api1/project'],
-        'only' => ['index','create', 'view', 'update', 'vote', 'delete','screenshots'],
+        'only' => ['index', 'create', 'view', 'update', 'vote', 'delete', 'screenshots'],
         'prefix' => 'api',
-        'extraPatterns' =>  ['PUT,PATCH {id}/vote' => 'vote','POST {id}/uploadScreenshots' => 'screenshots'],
+        'tokens' => ['{uuid}' => '<uuid:\\w+>',],
+        'patterns' => [
+            'PUT,PATCH {uuid}' => 'update',
+            'DELETE {uuid}' => 'delete',
+            'GET,HEAD {uuid}' => 'view',
+            'POST' => 'create',
+            'GET,HEAD' => 'index',
+            '{uuid}' => 'options',
+            '' => 'options',
+        ],
+        'extraPatterns' => ['PUT,PATCH {uuid}/vote' => 'vote', 'POST {uuid}/uploadScreenshots' => 'screenshots'],
         'ruleConfig' => [
             'class' => UrlRule::class,
             'defaults' => [
@@ -41,6 +52,7 @@ return [
         'controller' => ['1.0/bookmarks' => 'api1/bookmark'],
         'only' => ['index', 'create', 'delete'],
         'prefix' => 'api',
+        'tokens' => ['{uuid}' => '<uuid:\\w+>',],
         'ruleConfig' => [
             'class' => UrlRule::class,
             'defaults' => [

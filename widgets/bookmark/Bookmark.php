@@ -51,7 +51,7 @@ class Bookmark extends Widget
             'span',
             Html::icon('bookmark'),
             [
-                'data-id' => $this->project->id,
+                'data-id' => $this->project->uuid,
                 'data-endpoint' => Url::to(['/api1/bookmark/create']),
                 'class' => $createClass,
                 'title' => Yii::t('bookmark', 'Add to bookmarks'),
@@ -62,7 +62,7 @@ class Bookmark extends Widget
             'span',
             Html::icon('bookmark'),
             [
-                'data-endpoint' => Url::to(['/api1/bookmark/delete', 'id' => $this->project->id]),
+                'data-endpoint' => Url::to(['/api1/bookmark/delete', 'uuid' => $this->project->uuid]),
                 'class' => $deleteClass,
                 'title' => Yii::t('bookmark', 'Remove from bookmarks'),
             ]

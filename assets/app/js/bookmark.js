@@ -35,7 +35,7 @@ jQuery(function($) {
             method: 'post',
             dataType: 'json',
             data: {
-                id: id
+                uuid: id
             },
             success: function() {
                 el.addClass('hide');

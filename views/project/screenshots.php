@@ -22,13 +22,13 @@ $this->registerJs("initProjectImageUpload({$sizeThumb[0]}, {$sizeThumb[1]}, " . 
 <div class="project-screenshots">
     <ol class="wizard-progress">
         <li class="is-complete" data-step="1">
-            <?= Html::a(Yii::t('project', 'General info'), ['project/update', 'id' => $model->id]) ?>
+            <?= Html::a(Yii::t('project', 'General info'), ['project/update', 'uuid' => $model->uuid]) ?>
         </li>
         <li class="is-active" data-step="2">
             <?= Yii::t('project', 'Screenshots') ?>
         </li>
         <li data-step="3" class="progress__last">
-            <?= Html::a(Yii::t('project', 'Preview & Approve'), ['project/preview', 'id' => $model->id]) ?>
+            <?= Html::a(Yii::t('project', 'Preview & Approve'), ['project/preview', 'uuid' => $model->uuid]) ?>
         </li>
     </ol>
 
@@ -124,10 +124,10 @@ $this->registerJs("initProjectImageUpload({$sizeThumb[0]}, {$sizeThumb[1]}, " . 
         <div class="control-buttons">
             <div class="buttons-wrapper">
                 <div class="back">
-                    <?= Html::a(Yii::t('project', 'Back'), ['/project/update', 'id' => $model->id]) ?>
+                    <?= Html::a(Yii::t('project', 'Back'), ['/project/update', 'uuid' => $model->uuid]) ?>
                 </div>
                 <div class="next">
-                    <?= Html::a(Yii::t('project', 'Next'), ['/project/preview', 'id' => $model->id]) ?>
+                    <?= Html::a(Yii::t('project', 'Next'), ['/project/preview', 'uuid' => $model->uuid]) ?>
                 </div>
             </div>
         </div>

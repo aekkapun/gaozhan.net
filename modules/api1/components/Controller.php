@@ -17,21 +17,25 @@ class Controller extends \yii\rest\Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => CompositeAuth::className(),
-            'authMethods' => [
-                'basicAuth' => [
-                    'class' => HttpBasicAuth::className(),
-                    'auth' => function ($username, $password) {
-                        $user = User::find()->where(['username' => $username])->one();
-                        if ($user !== null && $user->validatePassword($password)) {
-                            return $user;
-                        }
-                        return null;
-                    },
+        if ($this->getCurrentUser() == null) {
+
+            $behaviors['authenticator'] = [
+                'class' => CompositeAuth::className(),
+                'authMethods' => [
+                    'basicAuth' => [
+                        'class' => HttpBasicAuth::className(),
+                        'auth' => function ($username, $password) {
+                            $user = User::find()->where(['username' => $username])->one();
+                            if ($user !== null && $user->validatePassword($password)) {
+                                return $user;
+                            }
+                            return null;
+                        },
+                    ],
                 ],
-            ],
-        ];
+            ];
+
+        }
         return $behaviors;
     }
 

@@ -15,7 +15,7 @@ use \yii\helpers\HtmlPurifier;
 
 // OpenGraph metatags
 $this->registerMetaTag(['property' => 'og:title', 'content' => Html::encode($model->title)]);
-$this->registerMetaTag(['property' => 'og:site_name', 'content' => 'YiiPowered']);
+$this->registerMetaTag(['property' => 'og:site_name', 'content' => '高站 gaozhan.net']);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Url::canonical()]);
 
 $this->title = $model->title;
@@ -109,14 +109,14 @@ $management = isset($management) ? $management : null;
                             <p>
                                 <?= Html::a(
                                     '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Update'),
-                                    ['update', 'id' => $model->id],
+                                    ['update', 'uuid' => $model->uuid],
                                     ['class' => 'btn btn-primary']
                                 ) ?>
                             </p>
                             
                             <?php if ($model->canDraft()): ?>
                                 <p>
-                                    <?= Html::a(Yii::t('project', 'Save as draft'), ['draft', 'id' => $model->id], [
+                                    <?= Html::a(Yii::t('project', 'Save as draft'), ['draft', 'uuid' => $model->uuid], [
                                         'class' => 'btn btn-warning',
                                         'data-method' => 'POST',
                                     ]) ?>
@@ -125,7 +125,7 @@ $management = isset($management) ? $management : null;
                             
                             <?php if ($model->canPublish()): ?>
                                 <p>
-                                    <?= Html::a(Yii::t('project', 'Publish'), ['publish', 'id' => $model->id], [
+                                    <?= Html::a(Yii::t('project', 'Publish'), ['publish', 'uuid' => $model->uuid], [
                                         'class' => 'btn btn-success',
                                         'data-method' => 'POST',
                                     ]) ?>
@@ -136,7 +136,7 @@ $management = isset($management) ? $management : null;
                                 <p>
                                     <?= Html::a(
                                         '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Delete'),
-                                        ['delete', 'id' => $model->id], [
+                                        ['delete', 'uuid' => $model->uuid], [
                                         'class' => 'btn btn-danger',
                                         'data-method' => 'post',
                                         'data-confirm' => Yii::t('project', 'Are you sure you want to delete this project?')
