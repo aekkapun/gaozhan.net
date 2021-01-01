@@ -64,6 +64,10 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => require __DIR__ . '/key.php',
+            //启用 JSON 输入,为了使 API 接收 JSON 格式的输入数据
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => FileCache::class,
