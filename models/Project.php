@@ -10,6 +10,7 @@ use app\components\queue\ProjectDeleteJob;
 use app\components\queue\ProjectShareJob;
 use creocoder\taggable\TaggableBehavior;
 use Yii;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -74,7 +75,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
      * @var int[]
      */
     public static $availableStatusIds = [self::STATUS_DRAFT, self::STATUS_PUBLISHED];
-    
+
     private $_description;
     /**
      * @var Image
@@ -108,6 +109,15 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             'taggable' => [
                 'class' => TaggableBehavior::className(),
             ],
+            'uuid' => [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'uuid',
+                ],
+                'value' => function ($event) {
+                    return new Expression('REPLACE(UUID(),"-","")');
+                },
+            ],
         ];
     }
 
@@ -124,7 +134,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             [['yii_version'], 'in', 'range' => array_keys(self::versions())],
             [['yii_version'], 'default', 'value' => ""],
             [['description', 'tagValues'], 'safe'],
-            
+
             ['primary_image_id', 'integer'],
             ['primary_image_id', 'exist', 'targetClass' => Image::className(), 'targetAttribute' => 'id', 'filter' => function (Query $query) {
                 $query->andWhere(['project_id' => $this->id]);
@@ -157,6 +167,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
     {
         return [
             'id' => Yii::t('project', 'ID'),
+            'uuid' => Yii::t('project', 'UUID'),
             'title' => Yii::t('project', 'Title'),
             'slug' => Yii::t('project', 'Slug'),
             'url' => Yii::t('project', 'URL'),
@@ -193,7 +204,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
 
     /**
      * Return sorted images. Primary image on first position.
-     * 
+     *
      * @return Image[]
      */
     public function getSortedImages()
@@ -204,7 +215,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             unset($images[$this->primaryImage->id]);
             $images = array_merge([$image], $images);
         }
-        
+
         return $images;
     }
 
@@ -350,7 +361,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
      */
     public static function getAvailableStatuses()
     {
-        return array_intersect_key(self::statuses(), array_flip(static::$availableStatusIds));   
+        return array_intersect_key(self::statuses(), array_flip(static::$availableStatusIds));
     }
 
     public function getStatusLabel()
@@ -379,13 +390,13 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             if ($this->status == self::STATUS_DELETED && $this->getOldAttribute('status') != self::STATUS_DRAFT) {
                 $this->addError('status', Yii::t('project', 'You can only delete a project from a draft.'));
             }
-            
+
             if ($this->getOldAttribute('status') == self::STATUS_DELETED) {
                 $this->addError('status', Yii::t('project', 'You can not restore a deleted project.'));
             }
         }
     }
-    
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -393,7 +404,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
         if ($this->_description !== null) {
             $this->saveDescription($this->_description);
         }
-        
+
         if (isset($changedAttributes['status']) && $changedAttributes['status'] != $this->status) {
             if ($this->status == self::STATUS_PUBLISHED) {
                 $this->addShareJob();
@@ -524,7 +535,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             $this->_primaryImage = false;
 
             if ($this->primary_image_id !== null) {
-                $this->_primaryImage = Image::findOne($this->primary_image_id);   
+                $this->_primaryImage = Image::findOne($this->primary_image_id);
             } elseif (!empty($this->images)) {
                 $this->_primaryImage = $this->images[0];
             }
@@ -535,7 +546,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
 
     /**
      * Return voting result for a project.
-     * 
+     *
      * @return int
      */
     public function getVotingResult()
@@ -546,13 +557,13 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             ])
             ->sum('value');
 
-        return (int) $value;
+        return (int)$value;
     }
 
 
     /**
-     * Add a task to share project. 
-     * 
+     * Add a task to share project.
+     *
      * @return bool
      */
     public function addShareJob()
@@ -585,7 +596,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
 
         return true;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -597,15 +608,15 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
             ProjectUser::deleteAll(['project_id' => $this->id]);
             Vote::deleteAll(['project_id' => $this->id]);
             Bookmark::deleteAll(['project_id' => $this->id]);
-            
+
             foreach ($this->images as $image) {
                 $image->delete();
             }
             Image::deleteBaseDirectories($this->id);
-            
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -640,5 +651,5 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
     {
         return $this->title;
     }
-    
+
 }
