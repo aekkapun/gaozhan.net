@@ -98,6 +98,7 @@ class ImageUploadForm extends Model
         if ($this->file !== null) {
             $image = new Image();
             $image->project_id = $this->_projectID;
+            $image->ext = $this->file->extension;
 
             if (!$image->save()) {
                 return false;

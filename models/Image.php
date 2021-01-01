@@ -14,6 +14,7 @@ use yii\helpers\Url;
  *
  * @property integer $id
  * @property integer $project_id
+ * @property string $ext
  * @property integer $created_by
  * @property integer $updated_by
  * @property integer $created_at
@@ -70,6 +71,7 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             [['project_id'], 'integer'],
+            [['ext'], 'string'],
             [
                 ['project_id'],
                 'exist',
@@ -88,6 +90,7 @@ class Image extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('image', 'ID'),
             'project_id' => Yii::t('image', 'Project ID'),
+            'ext' => Yii::t('image', 'extension'),
             'created_by' => Yii::t('image', 'Created By'),
             'updated_by' => Yii::t('image', 'Updated By'),
             'created_at' => Yii::t('image', 'Created At'),
@@ -119,19 +122,24 @@ class Image extends \yii\db\ActiveRecord
         return $this->hasOne(Project::className(), ['id' => 'project_id'])->inverseOf('images');
     }
 
+    private function getProjectPath()
+    {
+        return substr($this->project->uuid, 0, 2) . DIRECTORY_SEPARATOR . $this->project->uuid;
+    }
+
     public function getUrl()
     {
-        return Yii::getAlias('@web/img/project/' . $this->project_id . '/' . $this->getFullFilename()) . '?' . $this->updated_at;
+        return Yii::getAlias('@web/img/project/' . $this->getProjectPath() . '/' . $this->getFullFilename()) . '?' . $this->updated_at;
     }
 
     public function getThumbnailRelativeUrl()
     {
-        return Yii::getAlias('@web/img/project/' . $this->project_id . '/' . $this->getThumbnailFilename()) . '?' . $this->updated_at;
+        return Yii::getAlias('@web/img/project/' . $this->getProjectPath() . '/' . $this->getThumbnailFilename()) . '?' . $this->updated_at;
     }
 
     public function getBigThumbnailRelativeUrl()
     {
-        return Yii::getAlias('@web/img/project/' . $this->project_id . '/' . $this->getBigThumbnailFilename()) . '?' . $this->updated_at;
+        return Yii::getAlias('@web/img/project/' . $this->getProjectPath() . '/' . $this->getBigThumbnailFilename()) . '?' . $this->updated_at;
     }
 
     public function getThumbnailAbsoluteUrl()
@@ -141,27 +149,27 @@ class Image extends \yii\db\ActiveRecord
 
     public function getOriginalFilename()
     {
-        return $this->id . '.png';
+        return $this->id . '.'.$this->ext;
     }
 
     public function getFullFilename()
     {
-        return $this->id . '_full.png';
+        return $this->id . '_full.jpg';
     }
 
     public function getThumbnailFilename()
     {
-        return $this->id . '_thm.png';
+        return $this->id . '_thm.jpg';
     }
 
     public function getBigThumbnailFilename()
     {
-        return $this->id . '_big_thm.png';
+        return $this->id . '_big_thm.jpg';
     }
 
     public function getOriginalPath()
     {
-        return Yii::getAlias('@app/images/') . $this->project_id . '/' . $this->getOriginalFilename();
+        return Yii::getAlias('@app/images/') . $this->getProjectPath() . '/' . $this->getOriginalFilename();
     }
 
     public function ensureOriginalPath()
@@ -174,7 +182,7 @@ class Image extends \yii\db\ActiveRecord
 
     public function getFullPath()
     {
-        return Yii::getAlias('@webroot/img/project/') . $this->project_id . '/' . $this->getFullFilename();
+        return Yii::getAlias('@webroot/img/project/') . $this->getProjectPath() . '/' . $this->getFullFilename();
     }
 
     public function ensureFullPath()
@@ -187,21 +195,18 @@ class Image extends \yii\db\ActiveRecord
 
     public function getThumbnailPath()
     {
-        return Yii::getAlias('@webroot/img/project/') . $this->project_id . '/' . $this->getThumbnailFilename();
+        return Yii::getAlias('@webroot/img/project/') . $this->getProjectPath() . '/' . $this->getThumbnailFilename();
     }
-
-    private function getBigThumbnailPath()
-    {
-        return Yii::getAlias('@webroot/img/project/') . $this->project_id . '/' . $this->getBigThumbnailFilename();
-    }
-
-
     public function ensureThumbnailPath()
     {
         $path = $this->getThumbnailPath();
         FileHelper::createDirectory(dirname($path));
 
         return $path;
+    }
+    private function getBigThumbnailPath()
+    {
+        return Yii::getAlias('@webroot/img/project/') . $this->getProjectPath() . '/' . $this->getBigThumbnailFilename();
     }
 
     private function ensureBigThumbnailPath()
@@ -227,7 +232,7 @@ class Image extends \yii\db\ActiveRecord
         $image
             ->resize($size[0])
             ->crop(0, 0, $size[0], $size[1])
-            ->toFile($this->ensureThumbnailPath());
+            ->toFile($this->ensureThumbnailPath(),'image/jpeg');
 
         $this->touch('updated_at');
     }
@@ -245,7 +250,7 @@ class Image extends \yii\db\ActiveRecord
         $image
             ->resize($size[0])
             ->crop(0, 0, $size[0], $size[1])
-            ->toFile($this->ensureBigThumbnailPath());
+            ->toFile($this->ensureBigThumbnailPath(),'image/jpeg');
 
         $this->touch('updated_at');
     }
@@ -256,7 +261,7 @@ class Image extends \yii\db\ActiveRecord
 
         (new SimpleImage($this->getOriginalPath()))
             ->bestFit($size[0], $size[1])
-            ->toFile($this->ensureFullPath());
+            ->toFile($this->ensureFullPath(),'image/jpeg');
 
         $this->touch('updated_at');
     }
@@ -268,7 +273,7 @@ class Image extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        
+
         if ($insert) {
             $project = $this->project;
             if ($project->primary_image_id === null) {
@@ -306,7 +311,7 @@ class Image extends \yii\db\ActiveRecord
             Yii::getAlias("@webroot/img/project/{$projectId}"),
             Yii::getAlias("@app/images/{$projectId}")
         ];
-        
+
         foreach ($dirs as $dir) {
             FileHelper::removeDirectory($dir);
         }
