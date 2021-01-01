@@ -28,7 +28,7 @@ $autocompleteTagUrl = Url::toRoute(['/project/autocomplete-tags']);
     <?= $form->field($model, 'url')
         ->textInput(['maxlength' => 255, 'placeholder' => $model->getAttributeLabel('url')])
         ->label(false) ?>
-    <?= $form->field($model, 'yii_version')->dropDownList(Project::versions())->label(false) ?>
+    <?php //echo $form->field($model, 'yii_version')->dropDownList(Project::versions())->label(false) ?>
 
 
     <?= $form->field($model, 'tagValues')->widget(\yii\jui\AutoComplete::className(), [
@@ -74,10 +74,8 @@ $autocompleteTagUrl = Url::toRoute(['/project/autocomplete-tags']);
         })');
     ?>
 
-    <?= $form->field($model, 'is_opensource')->checkbox() ?>
-    <?= $form->field($model, 'source_url')
-        ->textInput(['maxlength' => 255, 'placeholder' => $model->getAttributeLabel('source_url')])
-        ->label(false) ?>
+    <?php // $form->field($model, 'is_opensource')->checkbox() ?>
+    <?php // $form->field($model, 'source_url')->textInput(['maxlength' => 255, 'placeholder' => $model->getAttributeLabel('source_url')])->label(false) ?>
 
     <?php if (UserPermissions::canManageProjects()): ?>
         <?= $form->field($model, 'is_featured')->checkbox() ?>
@@ -88,10 +86,6 @@ $autocompleteTagUrl = Url::toRoute(['/project/autocomplete-tags']);
     <h2><?= $model->getAttributeLabel('description') ?></h2>
 
     <?= $form->field($model, 'description')->textarea(['class' => 'markdown-editor'])->label(false) ?>
-</div>
-
-<div class="team">
-    <?php /* <h2>Team</h2> */ ?>
 </div>
 
 <div class="buttons-wrapper">

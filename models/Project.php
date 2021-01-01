@@ -117,11 +117,12 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
     public function rules()
     {
         return [
-            [['title', 'yii_version'], 'required'],
+            [['title', 'url'], 'required'],
             [['is_opensource', 'is_featured', 'published_to_twitter'], 'boolean'],
             [['title', 'url', 'source_url'], 'string', 'max' => 255],
             [['url', 'source_url'], 'url'],
             [['yii_version'], 'in', 'range' => array_keys(self::versions())],
+            [['yii_version'], 'default', 'value' => ""],
             [['description', 'tagValues'], 'safe'],
             
             ['primary_image_id', 'integer'],
