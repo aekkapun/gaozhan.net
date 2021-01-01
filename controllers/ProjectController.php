@@ -186,6 +186,7 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $notifier = new Notifier(new NewProjectNotification($model));
             $notifier->sendEmails();
+            $model->refresh();
             return $this->redirect(['screenshots', 'uuid' => $model->uuid]);
         }
 
