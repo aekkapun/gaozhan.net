@@ -3,6 +3,7 @@
 namespace app\modules\api1\controllers;
 
 use app\components\UserPermissions;
+use app\models\ImageUploadForm;
 use app\models\User;
 use app\modules\api1\components\Controller;
 use app\modules\api1\models\Project;
@@ -12,8 +13,10 @@ use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
+use yii\web\UploadedFile;
 
 class ProjectController extends Controller
 {
@@ -41,6 +44,56 @@ class ProjectController extends Controller
         return Project::find()->where(['id' => $id])->published()->one();
     }
 
+    public function actionCreate()
+    {
+        $model = new \app\models\Project();
+        if (UserPermissions::canManageProjects()) {
+            $model->setScenario(Project::SCENARIO_MANAGE);
+        }
+
+        if ($model->load(Yii::$app->request->getBodyParams(), '')) {
+            if (!$model->save()) {
+                throw new ServerErrorHttpException('Unable to save project: ' . json_encode($model->getErrors()));
+            }
+        }
+
+        Yii::$app->getResponse()->setStatusCode(201);
+
+    }
+
+    /**
+     * @param int $id
+     * @return string|Response
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     */
+    public function actionScreenshots($id)
+    {
+        $model = $this->findProject(['id' => $id]);
+
+        if (!UserPermissions::canManageProject($model)) {
+            throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
+        }
+
+        if (Yii::$app->user->can(UserPermissions::MANAGE_PROJECTS)) {
+            $model->setScenario(\app\models\Project::SCENARIO_MANAGE);
+        }
+
+        $imageUploadForm = null;
+        $imageUploadForm = new ImageUploadForm($id);
+        if ($imageUploadForm->load(Yii::$app->request->post(), '') ) {
+            $imageUploadForm->file = UploadedFile::getInstanceByName( 'file');
+            if (!$imageUploadForm->upload()) {
+                throw new ServerErrorHttpException('Unable to save image: ' . json_encode($imageUploadForm->getErrors()));
+            }
+        } else {
+            throw new ServerErrorHttpException('Post data error: ' . json_encode($imageUploadForm->getErrors()));
+        }
+
+        Yii::$app->getResponse()->setStatusCode(201);
+
+    }
+
     /**
      * @param int $id
      *
@@ -60,13 +113,12 @@ class ProjectController extends Controller
             throw new ForbiddenHttpException(Yii::t('project', 'You can not update this project.'));
         }
         $project->scenario = Project::SCENARIO_MANAGE;
-        
         if ($project->load(Yii::$app->request->getBodyParams(), '')) {
             if (!$project->save()) {
-                throw new ServerErrorHttpException('Unable to save project: ' . json_encode($project->getErrors()));   
+                throw new ServerErrorHttpException('Unable to save project: ' . json_encode($project->getErrors()));
             }
         }
-        
+
         Yii::$app->getResponse()->setStatusCode(204);
     }
 
@@ -84,19 +136,19 @@ class ProjectController extends Controller
         if (!$user) {
             throw new UnauthorizedHttpException('User should be authorized in order to manage voting.');
         }
-        
+
         $project = Project::find()
             ->andWhere(['id' => $id])
             ->published()
             ->limit(1)
             ->one();
-        
+
         if (!$project) {
             throw new NotFoundHttpException("The requested project does not exist.");
         }
-        
+
         $value = Yii::$app->request->getBodyParam('value');
-        
+
         $vote = Vote::getVote($project->id, $user->id);
         if (!$vote || $vote->value != $value) {
             if (!$vote) {
@@ -109,7 +161,7 @@ class ProjectController extends Controller
                 throw new ServerErrorHttpException('Unable to save vote: ' . json_encode($vote->getErrors()));
             }
         }
-        
+
         return [
             'votingResult' => $project->votingResult
         ];
@@ -133,14 +185,14 @@ class ProjectController extends Controller
         if (!UserPermissions::canManageProject($project)) {
             throw new ForbiddenHttpException(Yii::t('project', 'You can not delete this project.'));
         }
-        
+
         if (!$project->remove()) {
             throw new ServerErrorHttpException('Failed to delete project: ' . json_encode($project->getErrors()));
         }
-        
+
         Yii::$app->getResponse()->setStatusCode(204);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -168,17 +220,17 @@ class ProjectController extends Controller
             ->where(['id' => $projectId])
             ->available()
             ->limit(1);
-        
+
         if ($user !== null) {
             $projectQuery->hasUser($user);
         }
-        
+
         $project = $projectQuery->one();
 
         if ($project) {
             return $project;
         }
-        
+
         throw new NotFoundHttpException("The requested project does not exist.");
     }
 }
