@@ -39,7 +39,10 @@ $management = isset($management) ? $management : null;
             </h1>
 
             <?php if (!empty($model->url)): ?>
-                <p class="url"><?= Html::a(Html::encode($model->url), $model->url) ?></p>
+                <p class="url">
+                    <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                    <?= Html::a(Html::encode($model->url), $model->url) ?>
+                </p>
             <?php endif ?>
 
             <p><?= Vote::widget(['project' => $model]) ?></p>
@@ -54,6 +57,53 @@ $management = isset($management) ? $management : null;
                 <?php endforeach ?>
             </ul>
         </div>
+        <?php if ($management !== false && $canManageProject) : ?>
+            <hr/>
+            <div class="management">
+                <p class="time text-right">
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                    <?= Yii::t('project', 'Created: ') ?>
+                    <?= Yii::$app->formatter->asDate($model->created_at) ?>
+                    <?= Yii::t('project', 'Updated: ') ?>
+                    <?= Yii::$app->formatter->asDate($model->updated_at) ?>
+                </p>
+
+                <div class="controls">
+                    <p class="text-right">
+                        <?= Html::a(
+                            '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Update'),
+                            ['update', 'uuid' => $model->uuid],
+                            ['class' => 'btn btn-primary']
+                        ) ?>
+
+                    <?php if ($model->canDraft()): ?>
+                            <?= Html::a(Yii::t('project', 'Save as draft'), ['draft', 'uuid' => $model->uuid], [
+                                'class' => 'btn btn-warning',
+                                'data-method' => 'POST',
+                            ]) ?>
+                    <?php endif ?>
+
+                    <?php if ($model->canPublish()): ?>
+                            <?= Html::a(Yii::t('project', 'Publish'), ['publish', 'uuid' => $model->uuid], [
+                                'class' => 'btn btn-success',
+                                'data-method' => 'POST',
+                            ]) ?>
+                    <?php endif ?>
+
+                    <?php if ($model->canRemove()): ?>
+                            <?= Html::a(
+                                '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Delete'),
+                                ['delete', 'uuid' => $model->uuid], [
+                                'class' => 'btn btn-danger',
+                                'data-method' => 'post',
+                                'data-confirm' => Yii::t('project', 'Are you sure you want to delete this project?')
+                            ]) ?>
+                    <?php endif ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif ?>
+
     </header>
 
     <div class="project-body">
@@ -76,16 +126,11 @@ $management = isset($management) ? $management : null;
                 <?php endif ?>
             </div>
 
-            <div class="description">
-                <?= HtmlPurifier::process(Markdown::process($model->getDescription(), 'gfm'), Yii::$app->params['HtmlPurifier.projectDescription']) ?>
-            </div>
-
             <div class="information">
                 <?php if ($model->is_opensource): ?>
                     <p><?= Html::a(Yii::t('project', 'Source Code'), $model->source_url, ['target' => '_blank']) ?></p>
                 <?php endif ?>
 
-                <p><?= Yii::t('project', 'Yii Version') ?>: <?= Html::encode($model->yii_version) ?></p>
 
                 <ul class="tags">
                     <?php foreach ($model->tags as $tag): ?>
@@ -93,60 +138,12 @@ $management = isset($management) ? $management : null;
                     <?php endforeach ?>
                 </ul>
 
-                <?php if ($management !== false && $canManageProject) : ?>
-                    <hr/>
-                    <div class="management">
-                        <p class="time">
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                            <?= Yii::$app->formatter->asDate($model->created_at) ?>
-                        </p>
-                        <p class="time">
-                            <?= Yii::t('project', 'Updated: ') ?>
-                            <?= Yii::$app->formatter->asDate($model->updated_at) ?>
-                        </p>
-
-                        <div class="controls">
-                            <p>
-                                <?= Html::a(
-                                    '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Update'),
-                                    ['update', 'uuid' => $model->uuid],
-                                    ['class' => 'btn btn-primary']
-                                ) ?>
-                            </p>
-                            
-                            <?php if ($model->canDraft()): ?>
-                                <p>
-                                    <?= Html::a(Yii::t('project', 'Save as draft'), ['draft', 'uuid' => $model->uuid], [
-                                        'class' => 'btn btn-warning',
-                                        'data-method' => 'POST',
-                                    ]) ?>
-                                </p>
-                            <?php endif ?>
-                            
-                            <?php if ($model->canPublish()): ?>
-                                <p>
-                                    <?= Html::a(Yii::t('project', 'Publish'), ['publish', 'uuid' => $model->uuid], [
-                                        'class' => 'btn btn-success',
-                                        'data-method' => 'POST',
-                                    ]) ?>
-                                </p>
-                            <?php endif ?>
-
-                            <?php if ($model->canRemove()): ?>
-                                <p>
-                                    <?= Html::a(
-                                        '<i class="fa fa-pencil"></i> ' . Yii::t('project', 'Delete'),
-                                        ['delete', 'uuid' => $model->uuid], [
-                                        'class' => 'btn btn-danger',
-                                        'data-method' => 'post',
-                                        'data-confirm' => Yii::t('project', 'Are you sure you want to delete this project?')
-                                    ]) ?>
-                                </p>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                <?php endif ?>
+                <div class="">
+                    <?= HtmlPurifier::process(Markdown::process($model->getDescription(), 'gfm'), Yii::$app->params['HtmlPurifier.projectDescription']) ?>
+                </div>
             </div>
+
+
         </div>
     </div>
     
