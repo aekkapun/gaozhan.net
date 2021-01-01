@@ -59,7 +59,7 @@ class ImageUploadForm extends Model
                 ['file'],
                 'image',
                 'skipOnEmpty' => true,
-                'extensions' => 'png',
+                'extensions' => 'png,jpg',
                 'maxSize' => self::MAX_UPLOAD_SIZE
             ],
 
