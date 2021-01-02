@@ -18,7 +18,7 @@
  */
 return [
     'Any Status' => '全部状态',
-    'Add project' => '发布项目',
+    'Add project' => '分享一个好网站',
     'After the image upload, you will be able to crop it.' => '上传图像后, 您将能够对其进行裁剪.',
     'Any Yii version' => '任意 Yii 版本',
     'Any code access' => '任意代码访问',
@@ -46,7 +46,7 @@ return [
     'Is Featured' => '推荐',
     'Is OpenSource' => '开源项目',
     'Language' => '语言',
-    'Made one? Share it!' => '做了一个? 分享吧!',
+    'Made one? Share it!' => '发现一个好网站，分享吧！',
     'Manage projects' => '管理项目',
     'Mark as primary image' => '用作主图',
     'New projects' => '新项目',
