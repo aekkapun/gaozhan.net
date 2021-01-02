@@ -13,10 +13,7 @@ $this->title = Yii::t('project', 'Projects built with Yii');
 ?>
 <div class="intro">
     <p>
-        <?= Yii::t('project', '{n, plural, one{# project} other{# projects}} made with {link}', [
-            'n' => $projectsCount,
-            'link' => Html::a('Yii framework', 'http://yiiframework.com'),
-        ]) ?>
+        这是一个优秀网站分享平台，让更多的人从这里获取灵感
     </p>
 
     <?= Html::a(
@@ -39,27 +36,6 @@ $this->title = Yii::t('project', 'Projects built with Yii');
         ]) ?>
     </section>
 
-    <section class="group">
-        <header><?= Yii::t('project', 'New projects') ?></header>
 
-        <?= ListView::widget([
-            'dataProvider' => $newProvider,
-            'layout' => '{items}',
-            'options' => ['class' => 'projects-flow'],
-            'itemOptions' => ['class' => 'project'],
-            'itemView' => '_card',
-        ]) ?>
-
-
-        <div class="show-more">
-            <?= Html::a(
-                Yii::t('project', 'View  {n, plural, one{one more project} other{# more projects}}', [
-                'n' => $seeMoreCount,
-                ]),
-                ['project/list', 'page' => 2]
-            ) ?>
-        </div>
-
-    </section>
 
 </div>

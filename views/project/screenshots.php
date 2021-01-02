@@ -89,7 +89,7 @@ $this->registerJs("initProjectImageUpload({$sizeThumb[0]}, {$sizeThumb[1]}, " . 
                         </label>
                         <?= $form->field($imageUploadForm, 'file', ['options' => ['class' => '']])
                             ->fileInput([
-                                'accept' => 'image/png',
+                                'accept' => 'image/png,image/jpeg',
                                 'id' => 'upload-button',
                                 'class' => 'upload-button',
                             ])

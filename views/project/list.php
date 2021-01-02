@@ -21,41 +21,6 @@ $this->title = Yii::t('project', 'Projects');
                 'action' => ['project/list'],
             ]) ?>
 
-            <div class="filters">
-                <div class="title"><?= Yii::t('project', 'Filters') ?></div>
-
-                <?= $form->field($filterForm, 'title')
-                    ->textInput(['placeholder' => $filterForm->getAttributeLabel('title')])
-                    ->label(false)
-                ?>
-                <?= $form->field($filterForm, 'url')
-                    ->textInput(['placeholder' => $filterForm->getAttributeLabel('url')])
-                    ->label(false)
-                ?>
-                <?= $form->field($filterForm, 'opensource')
-                    ->dropDownList($filterForm->getOpenSourceOptions(), [
-                        'prompt' => Yii::t('project', 'Any code access'),
-                    ])
-                    ->label(false)
-                ?>
-                <?= $form->field($filterForm, 'featured')->checkbox() ?>
-                <?= $form->field($filterForm, 'yiiVersion')
-                    ->dropDownList(Project::versions(), [
-                        'prompt' => Yii::t('project', 'Any Yii version'),
-                    ])->label(false) ?>
-
-                <?php if (\app\components\UserPermissions::canManageProjects()): ?>
-                    <?= $form->field($filterForm, 'status')
-                        ->dropDownList(Project::getAvailableStatuses(), [
-                            'prompt' => Yii::t('project', 'Any Status'),
-                        ])->label(false);
-                    ?>
-                <?php endif ?>
-
-                <div class="form-group text-center">
-                    <?= Html::submitButton(Yii::t('project', 'Apply'), ['class' => 'btn btn-primary']) ?>
-                </div>
-            </div>
             <div class="tags">
                 <div class="title"><?= Yii::t('project', 'Tags') ?></div>
 

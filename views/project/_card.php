@@ -12,10 +12,19 @@ $bgImg = Yii::$app->request->baseUrl . '/img/project_no_image.png';
 ?>
 
 <article class="<?= $model->getStatusClass() ?>">
-    <a class="details" href="<?= Url::to(['project/view', 'uuid' => $model->uuid, 'slug' => $model->slug]) ?>">
-        <img class="img-responsive lazy" src="<?=$bgImg?>" data-src="<?= $model->getPrimaryImageThumbnailRelativeUrl() ?>" />
-        <h1><?= Html::encode($model->title) ?></h1>
+    <a class="details" href="<?= $model->url ?>" target="_blank">
+        <img class="img-responsive lazy" src="<?= $bgImg ?>"
+             data-src="<?= $model->getPrimaryImageThumbnailRelativeUrl() ?>"/>
+
     </a>
+
+    <a class="details" href="<?= Url::to(['project/view', 'uuid' => $model->uuid, 'slug' => $model->slug]) ?>">
+        <h1>
+            <span class="text-muted glyphicon glyphicon-new-window" aria-hidden="true"></span>
+            <?= Html::decode($model->title) ?>
+        </h1>
+    </a>
+
 
     <p class="tags">
         <?= implode(', ', array_map(function ($tag) {

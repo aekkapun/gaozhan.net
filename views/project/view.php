@@ -30,18 +30,18 @@ $management = isset($management) ? $management : null;
                 <?= Html::encode($model->title) ?>
 
                 <?php if ($model->is_featured): ?>
-                    <span class="featured" aria-hidden="true"></span>
+                    <span class="featured " aria-hidden="true"></span>
                 <?php endif ?>
 
                 <?php if ($model->status !== Project::STATUS_PUBLISHED && $canManageProject): ?>
-                    <span class="label <?= $model->getStatusClass() ?>"><?= $model->getStatusLabel() ?></span>
+                    <span class=" label <?= $model->getStatusClass() ?>"><?= $model->getStatusLabel() ?></span>
                 <?php endif ?>
             </h1>
 
             <?php if (!empty($model->url)): ?>
                 <p class="url">
-                    <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
-                    <?= Html::a(Html::encode($model->url), $model->url) ?>
+                    <span class="text-muted glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                    <?= Html::a(Html::encode($model->url), $model->url,['target'=>'_blank']) ?>
                 </p>
             <?php endif ?>
 

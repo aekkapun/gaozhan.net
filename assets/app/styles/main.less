@@ -10,11 +10,11 @@
 @import (reference) "../../../../vendor/bower-asset/font-awesome/less/font-awesome";
 
 .font-primary() {
-  font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+  font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .font-secondary() {
-  font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+  font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 @primary-blue-color: #2B70AB;
@@ -72,6 +72,7 @@ body {
   flex-direction: column;
   height: 100%;
 }
+
 .content {
   flex: 1 0 auto;
 }
@@ -89,6 +90,7 @@ a {
 
 .navbar-inverse {
   .font-primary();
+  border: none;
 
   .navbar-header {
     .navbar-brand {
@@ -98,6 +100,7 @@ a {
       font-size: 17pt;
       font-weight: bold;
       font-style: italic;
+
       &:hover {
         background-color: @dark-blue-color;
       }
@@ -118,7 +121,6 @@ a {
   .nav > li > {
     a.btn-add-project {
       background: @primary-green-color;
-      box-shadow: 0 1px 3px 0 @gray;
       border-radius: 3px;
       height: 2.5rem;
       padding: 1.5rem 3.3rem;
@@ -128,6 +130,7 @@ a {
       &:hover {
         background-color: @primary-green-dark-color;
       }
+
       &:active {
         background: darken(@button-green-hover-color, 5%);
       }
@@ -185,6 +188,7 @@ a {
     background: @button-green-hover-color;
     text-decoration: none;
   }
+
   &:active {
     background: darken(@button-green-hover-color, 5%);
     text-decoration: none;
@@ -224,6 +228,7 @@ a {
 
   .show-more {
     text-align: center;
+
     a {
       display: inline-block;
       margin-top: 1em;
@@ -263,16 +268,22 @@ a {
     a.details {
       .font-secondary;
       color: #000;
-      display: inline-block;
+      display: block;
 
       h1 {
+        height: 3rem;
         font-size: 14pt;
         margin: 1rem 0 0 0;
         padding: 0 1.2rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: 0.005em;
+        overflow: hidden;
       }
 
       img {
-        margin: 0 auto;
+        margin: 0;
+        width: 100%;
       }
     }
 
@@ -304,6 +315,7 @@ a {
 
       .delete {
         color: @yellow-color;
+
         &:hover {
           color: @gray;
         }
@@ -311,15 +323,16 @@ a {
 
       .create {
         color: @gray;
+
         &:hover {
           color: @yellow-color;
         }
       }
     }
-    
+
     .vote {
       margin: 0 0 5px 10px;
-      
+
       #block_vote
     }
   }
@@ -343,13 +356,19 @@ a {
 
     .title {
       .make-lg-column(9);
+
       h1 {
         margin: 0;
         font-size: 20pt;
+
+        span {
+          font-size: 0.3em;
+        }
       }
 
       .url {
-        font-size: 16pt;
+        margin: 20px 0;
+        font-size: 1em;
       }
 
       .featured {
@@ -404,9 +423,11 @@ a {
           background: #3B80B8;
           border-radius: 0.3rem;
           font-size: 1.5rem;
+
           &:hover {
             background: @text-blue-color;
           }
+
           &:active {
             background: #7BB6DF;
           }
@@ -524,6 +545,7 @@ a {
               font-weight: 500;
               font-size: 12pt;
             }
+
             .count {
               .make-xs-column(4);
               text-align: right;
@@ -612,6 +634,7 @@ a {
           margin: 1rem;
           border: 1px solid @dark-blue-color;
           border-radius: 3px;
+
           &:not(:first-child) {
             display: inline-block;
             flex: 0 1 30%;
@@ -783,6 +806,7 @@ a {
       position: relative;
       z-index: 1000;
     }
+
     &:after {
       content: '';
       position: absolute;
@@ -794,9 +818,11 @@ a {
       left: 50%;
       margin-left: 1.5em;
     }
+
     &:last-child:after {
       display: none;
     }
+
     &.is-complete {
       color: @primary-blue-color;
 
@@ -806,6 +832,7 @@ a {
         background: @primary-blue-color;
       }
     }
+
     &.is-active {
       color: @primary-blue-color;
 
@@ -1030,6 +1057,7 @@ a {
               &:focus, &:hover {
                 background-color: #2b2b2b;
               }
+
               &:active:hover, &:active:focus {
                 background-color: #191919;
               }
@@ -1190,6 +1218,7 @@ label.status-deleted {
 
   .up {
     color: green;
+
     &:hover {
       color: darkgreen;
     }
@@ -1197,6 +1226,7 @@ label.status-deleted {
 
   .down {
     color: red;
+
     &:hover {
       color: darkred;
     }
@@ -1210,6 +1240,7 @@ label.status-deleted {
   .disabled {
     cursor: inherit;
     color: @gray;
+
     &:hover {
       color: @gray;
     }
@@ -1219,14 +1250,14 @@ label.status-deleted {
 .comment-wrapper {
   background-color: #dfe4e6;
   padding-bottom: 10px;
-  
+
   .comments {
     .comment {
       background: white;
       border: 1px dashed #1e6887;
       margin-bottom: 15px;
       border-radius: 6px;
-      
+
       .header {
         margin: 0;
         padding: 3px 22px 2px;
@@ -1239,16 +1270,16 @@ label.status-deleted {
           font-weight: 600;
           text-decoration: none;
         }
-        
+
         .details {
           padding-top: 7px;
         }
-        
+
         .username {
           color: @orange-color;
         }
       }
-      
+
       .body {
         padding: 22px;
 
@@ -1261,6 +1292,7 @@ label.status-deleted {
     }
   }
 }
+
 .container-alert {
   margin-top: 20px;
 }
