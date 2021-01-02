@@ -171,6 +171,7 @@ class SiteController extends Controller
     public function actionSitemap($refresh = 0)
     {
         // get content from cache:
+        // TODO 区分语言做缓存
         $content = Yii::$app->cache->get('sitemap.xml');
         if ($content === false || $refresh == 1) {
             // if no cached value exists - create an new one
