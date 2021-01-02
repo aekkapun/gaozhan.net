@@ -5,8 +5,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\UrlNormalizer;
 
 $languages = [
-    'zh' => ['zh-CN', '简体中文'],
-    'en' => ['en-US', 'English'],
+    'zh' => ['zh-CN', '中文'],
+    'en' => ['en-US', 'En'],
 ];
 
 return [
@@ -21,13 +21,13 @@ return [
     'project.pagesize' => 9,
     'project.maxTopProjects' => 100,
 
-    'image.size.full' => [1920, 1080],
-    'image.size.thumbnail' => [402, 264],
-    'image.size.big_thumbnail' => [760, 500],
+    'image.size.full' => [1440, 1080],
+    'image.size.thumbnail' => [400, 300],
+    'image.size.big_thumbnail' => [1024, 768],
 
     'user.avatar.size' => [200, 200],
 
-    'debug.allowedIPs' => ['127.0.0.1'],
+    'debug.allowedIPs' => ['*'],
     
     'components.urlManager' => [
         'class' => UrlManager::class,
