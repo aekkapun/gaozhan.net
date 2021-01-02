@@ -4,6 +4,7 @@ use yii\web\UrlRule;
 
 return [
     'bookmarks' => 'project/bookmarks',
+    'projects/tags/<tags:\w+[\w-]+>' => 'project/list',
     'projects' => 'project/list',
     'projects/<uuid:\w+>/<slug>' => 'project/view',
     'top-100' => 'project/top-projects',
@@ -14,7 +15,7 @@ return [
     'login' => 'site/login',
     'signup' => 'site/signup',
     'auth' => 'site/auth',
-
+    'sitemap.xml' => 'site/sitemap',
     // API
     'api/1.0' => 'api1/docs/index',
     'api' => 'api1/docs/index',

@@ -13,6 +13,7 @@ use yii\authclient\ClientInterface;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -20,6 +21,8 @@ use app\models\LoginForm;
 use yii\authclient\AuthAction;
 use yii\captcha\CaptchaAction;
 use yii\web\ErrorAction;
+use yii2tech\sitemap\File;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -163,5 +166,54 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSitemap($refresh = 0)
+    {
+        // get content from cache:
+        $content = Yii::$app->cache->get('sitemap.xml');
+        if ($content === false || $refresh == 1) {
+            // if no cached value exists - create an new one
+            // create sitemap file in memory:
+            $sitemap = new File();
+            $sitemap->fileName = 'php://memory';
+
+            // write your site URLs:
+            $sitemap->writeUrl(['site/index']);
+            $sitemap->writeUrl(['site/about']);
+            $sitemap->writeUrl(['site/login']);
+            $sitemap->writeUrl(['site/signup']);
+            $sitemap->writeUrl(['site/auth']);
+            $sitemap->writeUrl(['project/list']);
+            $sitemap->writeUrl(['project/top-projects']);
+
+// or to iterate the row one by one
+
+            $projectQuery = (new\yii\db\Query())
+                ->from('project')->where(['status'=>20]);
+
+            foreach ($projectQuery->each() as $project) {
+                $sitemap->writeUrl(['project/view', 'uuid' => $project['uuid'], 'slug' => $project['slug']]);
+            }
+            $tagQuery = (new\yii\db\Query())
+                ->from('tag');
+
+            foreach ($tagQuery->each() as $tag) {
+                $sitemap->writeUrl(['project/list', 'tags' => $tag['name']]);
+            }
+            // get generated content:
+            $content = $sitemap->getContent();
+
+            // save generated content to cache
+            Yii::$app->cache->set('sitemap.xml', $content);
+        }
+
+        // send sitemap content to the user agent:
+        $response = Yii::$app->getResponse();
+        $response->format = Response::FORMAT_RAW;
+        $response->getHeaders()->add('Content-Type', 'application/xml;');
+        $response->content = $content;
+
+        return $response;
     }
 }
