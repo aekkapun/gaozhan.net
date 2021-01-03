@@ -18,6 +18,7 @@
  */
 return [
     'Explore projects' => '发现',
+    'Featured projects' => '精选推荐',
     'Logout' => '退出',
     'About' => '关于我们',
     'Bookmarks' => '书签',

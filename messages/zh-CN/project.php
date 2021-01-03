@@ -38,7 +38,7 @@ return [
     'Draft' => '草稿',
     'Failed to delete project.' => '删除项目失败.',
     'Failed to update project.' => '更新项目失败.',
-    'Featured projects' => '推荐项目',
+    'Featured projects' => '精选推荐',
     'Filters' => '筛选',
     'General' => '基本信息',
     'General info' => '基本信息',
