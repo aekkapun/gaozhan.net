@@ -41,6 +41,12 @@ AppAsset::register($this);
 
         $menuItems = [
             [
+                'label' => Html::tag('span', Yii::t('app', 'Featured projects')),
+                'encode' => false,
+                'url' => ['/'],
+                'linkOptions' => ['alt' => Yii::t('app', 'Featured projects'), 'title' => Yii::t('app', 'Featured projects')],
+            ],
+            [
                 'label' => Html::tag('span', Yii::t('app', 'Explore projects')),
                 'encode' => false,
                 'url' => ['/projects'],
