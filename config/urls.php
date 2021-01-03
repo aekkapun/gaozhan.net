@@ -34,7 +34,10 @@ return [
             '{uuid}' => 'options',
             '' => 'options',
         ],
-        'extraPatterns' => ['PUT,PATCH {uuid}/vote' => 'vote', 'POST {uuid}/uploadScreenshots' => 'screenshots'],
+        'extraPatterns' => [
+            'PUT,PATCH {uuid}/vote' => 'vote',
+            'POST {uuid}/uploadScreenshots' => 'screenshots'
+        ],
         'ruleConfig' => [
             'class' => UrlRule::class,
             'defaults' => [
