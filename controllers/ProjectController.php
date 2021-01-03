@@ -67,7 +67,7 @@ class ProjectController extends Controller
         $limit = Yii::$app->params['project.pagesize'];
 
         $featuredProvider = new ActiveDataProvider([
-            'pagination' => false,
+//            'pagination' => false,
             'query' => Project::find()
                 ->with('images')
                 ->with('tags')
@@ -77,28 +77,8 @@ class ProjectController extends Controller
                 ->limit($limit)
         ]);
 
-        $newProvider = new ActiveDataProvider([
-            'pagination' => false,
-            'query' => Project::find()
-                ->with('images')
-                ->with('tags')
-                ->featured(false)
-                ->publishedOrEditable()
-                ->freshFirst()
-                ->limit($limit)
-        ]);
-
-        $projectsCount = Project::find()
-            ->published()
-            ->count();
-
-        $seeMoreCount = $projectsCount - $limit;
-
         return $this->render('index', [
             'featuredProvider' => $featuredProvider,
-            'newProvider' => $newProvider,
-            'projectsCount' => $projectsCount,
-            'seeMoreCount' => $seeMoreCount
         ]);
     }
 
