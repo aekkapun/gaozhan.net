@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /assets/
 
-Host: https://yiipowered.com
+Host: https://www.gaozhan.net
