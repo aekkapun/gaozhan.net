@@ -95,7 +95,7 @@ class ProjectFilterForm extends Model
 
         return new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => Yii::$app->params['project.pagesize']],
+            'pagination' => ['pageSize' => Yii::$app->params['project.pageSize']],
         ]);
     }
 
