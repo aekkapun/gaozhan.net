@@ -10,6 +10,8 @@ $languages = [
 ];
 
 return [
+    'siteName'=>'高站 - 高质量网站推荐',
+    'description'=>'高质量网站分享平台，让更多的设计湿从这里获取灵感',
     'adminEmail' => 'sam+yiipowered@rmcreative.ru',
     'notificationEmail' => 'noreply@yiipowered.com',
     'supportEmail' => 'noreply@yiipowered.com',
@@ -18,7 +20,7 @@ return [
 
     'languages' => $languages,
 
-    'project.pagesize' => 9,
+    'project.pageSize' => 9,
     'project.maxTopProjects' => 100,
 
     'image.size.full' => [1440, 1080],
@@ -27,7 +29,7 @@ return [
 
     'user.avatar.size' => [200, 200],
 
-    'debug.allowedIPs' => ['*'],
+    'debug.allowedIPs' => ['127.0.0.1'],
     
     'components.urlManager' => [
         'class' => UrlManager::class,

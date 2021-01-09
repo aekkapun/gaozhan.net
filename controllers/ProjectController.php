@@ -64,7 +64,7 @@ class ProjectController extends Controller
 
     public function actionIndex()
     {
-        $limit = Yii::$app->params['project.pagesize'];
+        $limit = Yii::$app->params['project.pageSize'];
 
         $featuredProvider = new ActiveDataProvider([
 //            'pagination' => false,
@@ -186,13 +186,13 @@ class ProjectController extends Controller
             ->all();
 
         $feed = new Feed();
-        $feed->title = 'YiiPowered';
+        $feed->title = Yii::$app->params['siteName'];
         $feed->link = Url::to('/', true);
         $feed->selfLink = Url::to(['project/rss'], true);
-        $feed->description = 'Yii powered projects';
-        $feed->language = 'en';
-        $feed->setWebMaster('sam@rmcreative.ru', 'Alexander Makarov');
-        $feed->setManagingEditor('sam@rmcreative.ru', 'Alexander Makarov');
+        $feed->description =  Yii::$app->params['description'];
+        $feed->language = 'zh-CN';
+        $feed->setWebMaster(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);
+        $feed->setManagingEditor(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);
 
         foreach ($projects as $project) {
             $url = Url::to(['project/view', 'uuid' => $project->uuid, 'slug' => $project->slug], true);
@@ -219,7 +219,7 @@ class ProjectController extends Controller
                 $authors[] = '@' . $user->username;
             }
 
-            $item->setAuthor('noreply@yiipowered.com', implode(', ', $authors));
+            $item->setAuthor(Yii::$app->params['adminEmail'], implode(', ', $authors));
             $feed->addItem($item);
         }
 
