@@ -32,15 +32,15 @@ return [
     'debug.allowedIPs' => ['127.0.0.1'],
     
     'components.urlManager' => [
-        'class' => UrlManager::class,
-        'languages' => ArrayHelper::getColumn($languages, 0),
-        'ignoreLanguageUrlPatterns' => [
-            '~^site/auth~' => '~^auth~',
-        ],
-        'enableDefaultLanguageUrlCode' => true,
+//        'class' => UrlManager::class,
+//        'languages' => ArrayHelper::getColumn($languages, 0),
+//        'ignoreLanguageUrlPatterns' => [
+//            '~^site/auth~' => '~^auth~',
+//        ],
+//        'enableDefaultLanguageUrlCode' => true,
         'rules' => require __DIR__ . '/urls.php',
         'showScriptName' => false,
-
+        'enablePrettyUrl' => true,
         'normalizer' => [
             'class' => UrlNormalizer::class,
         ],

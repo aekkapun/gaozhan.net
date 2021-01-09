@@ -18,7 +18,8 @@ $params = array_merge(
 );
 
 $config = [
-    'id' => 'yiipowered',
+    'id' => 'gaozhan',
+    'language'=>'zh-CN',
     'basePath' => dirname(__DIR__),
     'defaultRoute' => 'project/index',
     'bootstrap' => ['log'],
