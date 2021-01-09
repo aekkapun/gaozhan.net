@@ -18,7 +18,7 @@
  */
 return [
     'Any Status' => '全部状态',
-    'Add project' => '分享一个好网站',
+    'Add project' => '分享',
     'After the image upload, you will be able to crop it.' => '上传图像后, 您将能够对其进行裁剪.',
     'Any Yii version' => '任意 Yii 版本',
     'Any code access' => '任意代码访问',
