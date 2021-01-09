@@ -24,6 +24,8 @@ AppAsset::register($this);
     <link rel="alternate" type="application/rss+xml" title="高站"
           href="<?= \yii\helpers\Url::to(['project/rss'], true) ?>"/>
     <?php $this->head() ?>
+    <?= Yii::$app->params['tongji'] ?>
+    <meta name="baidu-site-verification" content="code-IPjauywEvk"/>
 </head>
 <body>
 
@@ -95,18 +97,18 @@ AppAsset::register($this);
                 'encode' => false,
                 'items' => [
                     [
-                        'label' => Html::tag('span', Yii::$app->user->identity->username, ['class' => 'glyphicon glyphicon-user']),
+                        'label' => Html::tag('span', Yii::$app->user->identity->username),
                         'url' => ['/user/view', 'id' => \Yii::$app->user->id],
                         'encode' => false,
                     ],
                     [
-                        'label' => Html::tag('span', Yii::t('app', 'Bookmarks'), ['class' => 'glyphicon glyphicon-bookmark']),
+                        'label' => Html::tag('span', Yii::t('app', 'Bookmarks')),
                         'encode' => false,
                         'url' => ['/project/bookmarks'],
                         'linkOptions' => ['alt' => Yii::t('app', 'Bookmarks'), 'title' => Yii::t('app', 'Bookmarks')],
                     ],
                     [
-                        'label' => Html::tag('span', Yii::t('app', 'Logout'), ['class' => 'glyphicon glyphicon-log-out']),
+                        'label' => Html::tag('span', Yii::t('app', 'Logout')),
                         'url' => ['/site/logout'],
                         'encode' => false,
                         'linkOptions' => [
@@ -135,15 +137,15 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
-
-            <div class="container container-alert">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <?= Alert::widget() ?>
+            <?php if (\Yii::$app->getSession()->getAllFlashes()): ?>
+                <div class="container container-alert">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <?= Alert::widget() ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            <?php endif; ?>
             <?= $content ?>
         </div>
     </div>
