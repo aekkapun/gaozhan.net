@@ -9,7 +9,8 @@ return [
     'projects' => 'project/list',
     'projects/<uuid:\w+>/<slug>' => 'project/view',
     'top-100' => 'project/top-projects',
-    'user' => 'user/view',
+    'users' => 'user/index',
+    'users/<id:\d+>' => 'user/view',
 
     'about' => 'site/about',
     'logout' => 'site/logout',
