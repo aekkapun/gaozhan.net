@@ -32,10 +32,10 @@ AppAsset::register($this);
     <div class="content">
         <?php
         NavBar::begin([
-            'brandLabel' => '<span class="yii-logo"></span>高站',
+            'brandLabel' => '<span class="gaozhan-logo"></span>高站',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar-inverse navbar-fixed-top',
+                'class' => 'navbar-default navbar-fixed-top',
             ],
         ]);
 
@@ -58,9 +58,25 @@ AppAsset::register($this);
                 'url' => ['/project/top-projects'],
             ]
         ];
+        /*$menuItems[] = [
+            'label' => Html::tag('span', '<span> ' . Yii::t('app', 'RSS feed') . '</span>', ['class' => 'fa fa-rss-square']),
+            'encode' => false,
+            'url' => ['/project/rss'],
+            'linkOptions' => [
+                'alt' => Yii::t('app', 'RSS feed'),
+                'title' => Yii::t('app', 'RSS feed'),
+            ]
+        ]*/
+        ?>
+        <?= Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-left'],
+            'items' => $menuItems,
+        ]); ?>
+        <?php
+        $menuItems = [];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = [
-                'label' => Html::tag('span',  Yii::t('app', 'Login') ),
+                'label' => Html::tag('span', Yii::t('app', 'Login')),
                 'encode' => false,
                 'url' => ['/site/login'],
                 'linkOptions' => ['alt' => Yii::t('app', 'Login'), 'title' => Yii::t('app', 'Login')],
@@ -75,17 +91,22 @@ AppAsset::register($this);
                 ]
             ];
             $menuItems[] = [
-                'label' => Yii::$app->user->identity->username,
-                'url' => ['/user/view', 'id' => \Yii::$app->user->id],
+                'label' => Html::img(Yii::$app->user->identity->getAvatarImage(), ['alt' => Yii::$app->user->identity->username, 'class' => 'img-circle', 'width' => 20]),
+                'encode' => false,
                 'items' => [
                     [
-                        'label' => Html::tag('span', Yii::t('app', 'Bookmarks'), ['class' => 'fa fa-bookmark']),
+                        'label' => Html::tag('span', Yii::$app->user->identity->username, ['class' => 'glyphicon glyphicon-user']),
+                        'url' => ['/user/view', 'id' => \Yii::$app->user->id],
+                        'encode' => false,
+                    ],
+                    [
+                        'label' => Html::tag('span', Yii::t('app', 'Bookmarks'), ['class' => 'glyphicon glyphicon-bookmark']),
                         'encode' => false,
                         'url' => ['/project/bookmarks'],
                         'linkOptions' => ['alt' => Yii::t('app', 'Bookmarks'), 'title' => Yii::t('app', 'Bookmarks')],
                     ],
                     [
-                        'label' => Html::tag('span', Yii::t('app', 'Logout'), ['class' => 'fa fa-sign-out']),
+                        'label' => Html::tag('span', Yii::t('app', 'Logout'), ['class' => 'glyphicon glyphicon-log-out']),
                         'url' => ['/site/logout'],
                         'encode' => false,
                         'linkOptions' => [
@@ -98,34 +119,15 @@ AppAsset::register($this);
             ];
         }
         $menuItems[] = [
-            'label' => Html::tag('span', '<span> ' . Yii::t('app', 'RSS feed') . '</span>', ['class' => 'fa fa-rss-square']),
-            'encode' => false,
-            'url' => ['/project/rss'],
-            'linkOptions' => [
-                'alt' => Yii::t('app', 'RSS feed'),
-                'title' => Yii::t('app', 'RSS feed'),
-            ]
-        ]
+            'label' => Yii::t('project', 'Add project'),
+            'url' => ['project/create'],
+            'linkOptions' => ['class' => 'btn-add-project']
+        ];
         ?>
-
-        <ul class="navbar-nav navbar-right nav">
-            <li class="dropdown">
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="fa fa-globe"></span> <b
-                            class="caret"></b></a>
-                <?= \app\widgets\LanguageDropdown::widget() ?>
-            </li>
-        </ul>
-
         <?= Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => $menuItems,
         ]); ?>
-
-        <ul class="navbar-nav navbar-right nav">
-            <li>
-                <?= yii\helpers\Html::a(Yii::t('project', 'Add project'), ['project/create'], ['class' => 'btn-add-project']) ?>
-            </li>
-        </ul>
 
         <?php NavBar::end(); ?>
 
