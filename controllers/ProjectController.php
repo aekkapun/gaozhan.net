@@ -67,7 +67,9 @@ class ProjectController extends Controller
         $limit = Yii::$app->params['project.pageSize'];
 
         $featuredProvider = new ActiveDataProvider([
-//            'pagination' => false,
+            'pagination' => [
+                'defaultPageSize' => Yii::$app->params['project.pageSize'],
+            ],
             'query' => Project::find()
                 ->with('images')
                 ->with('tags')
@@ -188,7 +190,7 @@ class ProjectController extends Controller
         $feed = new Feed();
         $feed->title = Yii::$app->params['siteName'];
         $feed->link = Url::to('/', true);
-        $feed->selfLink = Url::to(['project/rss'], true);
+        $feed->selfLink = Url::to(['/rss'], true);
         $feed->description =  Yii::$app->params['description'];
         $feed->language = 'zh-CN';
         $feed->setWebMaster(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);

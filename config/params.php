@@ -20,7 +20,7 @@ return [
 
     'languages' => $languages,
 
-    'project.pageSize' => 9,
+    'project.pageSize' => 18,
     'project.maxTopProjects' => 100,
 
     'image.size.full' => [1440, 1080],

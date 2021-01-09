@@ -1,3 +1,7 @@
+lazyLoadInstance = new LazyLoad({
+    elements_selector: ".lazy"
+});
+
 jQuery(function ($) {
     "use strict";
 
@@ -51,9 +55,7 @@ jQuery(function ($) {
         });
     });
 
-    new LazyLoad({
-        elements_selector: ".lazy"
-    });
+
 });
 
 /**
