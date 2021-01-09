@@ -84,6 +84,9 @@ a {
     color: @footer-link-hover-color;
   }
 }
+.mt-0 {
+  margin-top: 0;
+}
 
 // HEADER
 
@@ -146,7 +149,8 @@ a {
 
       li > a {
         font-size: 11pt;
-        color: @text-blue-color;
+        text-align: right;
+        color: @gray;
 
         &:hover {
           background-color: #f5f5f5;
@@ -189,15 +193,16 @@ a {
 }
 
 .intro {
-  text-align: center;
+  text-align: left;
   padding: 6rem;
-  font-size: 21pt;
 
   .add-project {
+    .big-button;
     display: inline-block;
     text-align: center;
-    margin-top: 1em;
-    .big-button;
+    margin-top: 0.6em;
+    font-size: 1.2em;
+    padding: 0.8rem 1rem;
   }
 }
 
@@ -256,7 +261,7 @@ a {
     margin: 1em;
     flex: 1 0 0;
     background: #fff;
-    box-shadow: 0 1px 3px 0 rgba(26, 101, 163, 0.50);
+    box-shadow: 0 1px 3px 0 rgba(159, 159, 159, 0.5);
 
     a.details {
       .font-secondary;

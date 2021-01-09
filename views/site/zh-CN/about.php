@@ -9,28 +9,27 @@ $this->title = '关于高站';
     <div class="panes-wrapper">
         <div class="pane">
             <h1><?= Html::encode($this->title) ?></h1>
-            <p>
+            <h3>
                 为什么叫"高站"?
-            </p>
+            </h3>
             <p>
                 网站的宗旨是
             </p>
-            <p>-- 打造分享高质量网站平台，让更多的人从这里获取灵感</p>
+            <p class="lead"><i>-- 打造高质量网站分享平台让更多设计湿获得灵感</i></p>
             <p>
                 所以"高站"一词的来源是，高质量网站的简写
             </p>
 
             <h2>维护团队</h2>
-
+            <p><a href="https://www.bestyii.com" target="_blank">Yii 中文社区技术组</a></p>
             <ul>
+                <li>设计：edge</li>
                 <li>开发：ez</li>
             </ul>
             <h2>联系我们</h2>
             <p>
-                微信：
-            </p>
-            <p>
-                Email：
+            欢迎进入<a href="https://www.bestyii.com/?node=gaozhan" target="_blank">站务管理</a>进行交流
+
             </p>
         </div>
 

@@ -11,17 +11,22 @@ use \yii\widgets\ListView;
 
 $this->title = Yii::t('project', 'Projects built with Yii');
 ?>
-<div class="intro">
-    <p>
-        这是一个优秀网站分享平台，让更多的人从这里获取灵感
-    </p>
+<?php if (Yii::$app->user->isGuest) : ?>
+    <div class=" intro">
+        <h1 class="mt-0">
+            发掘世界顶级网站与创意
+        </h1>
+        <p class="lead text-muted">
+            这是高质量网站分享平台让更多设计湿获得灵感
+        </p>
 
-    <?= Html::a(
-        Yii::t('project', 'Made one? Share it!'),
-        ['project/create'],
-        ['class' => 'add-project']
-    ) ?>
-</div>
+        <?= Html::a(
+            Yii::t('project', 'Made one? Share it!'),
+            ['project/create'],
+            ['class' => 'add-project']
+        ) ?>
+    </div>
+<?php endif; ?>
 
 <div class="project-index">
     <section class="group">
@@ -41,7 +46,7 @@ $this->title = Yii::t('project', 'Projects built with Yii');
                 'triggerOffset' => 100,
                 'spinnerTemplate' => '<div class="ias-spinner" style="width:100%; text-align: center;"><img src="{src}"/></div>',
                 'triggerTemplate' => '<div class="ias-trigger" style="width:100%; text-align: center; cursor: pointer;"><a>{text}</a></div>',
-                'eventOnRendered'=>'function(){lazyLoadInstance.update();}'
+                'eventOnRendered' => 'function(){lazyLoadInstance.update();}'
             ]
         ]) ?>
     </section>
