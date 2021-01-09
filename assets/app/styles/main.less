@@ -6,7 +6,6 @@
 @import "../../../../vendor/bower-asset/bootstrap/less/navbar";
 @import "../../../../vendor/bower-asset/bootstrap/less/grid";
 @import "../../../../vendor/bower-asset/bootstrap/less/buttons";
-//@import url('https://fonts.googleapis.com/css?family=Roboto:400,500|Rubik:400,500');
 @import (reference) "../../../../vendor/bower-asset/font-awesome/less/font-awesome";
 
 .font-primary() {
@@ -46,8 +45,8 @@
 
 @content-bg-color: #F7F9FB;
 
-@footer-link-color: @orange-color;
-@footer-link-hover-color: @orange-dark-color;
+@footer-link-color: @primary-green-color;
+@footer-link-hover-color: @primary-green-dark-color;
 
 @color-draft: rgba(10, 10, 200, .5);
 @color-deleted: rgba(200, 10, 10, .5);
@@ -88,7 +87,7 @@ a {
 
 // HEADER
 
-.navbar-inverse {
+.navbar-default {
   .font-primary();
   border: none;
 
@@ -100,12 +99,12 @@ a {
       font-size: 17pt;
       font-weight: bold;
       font-style: italic;
+      color: #333;
 
       &:hover {
-        background-color: @dark-blue-color;
       }
 
-      .yii-logo {
+      .gaozhan-logo {
         width: 36px;
         height: 39px;
         display: inline-block;
@@ -126,10 +125,7 @@ a {
       padding: 1.5rem 3.3rem;
       margin: 1rem 1.5rem;
       line-height: 0;
-
-      &:hover {
-        background-color: @primary-green-dark-color;
-      }
+      color: @navbar-inverse-link-color;
 
       &:active {
         background: darken(@button-green-hover-color, 5%);
@@ -139,9 +135,6 @@ a {
     a {
       font-size: 1.9rem;
 
-      &:hover {
-        background-color: @dark-blue-color;
-      }
 
       span span {
         .visible-xs-inline;
