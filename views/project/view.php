@@ -1,6 +1,7 @@
 <?php
 
 use app\components\UserPermissions;
+use app\widgets\Like;
 use app\widgets\Vote;
 use yii\helpers\Html;
 use app\models\Project;
@@ -45,7 +46,7 @@ $management = isset($management) ? $management : null;
                 </p>
             <?php endif ?>
 
-            <p><?= Vote::widget(['project' => $model]) ?></p>
+            <p><?= Like::widget(['project' => $model]) ?></p>
         </div>
         <div class="authors">
             <ul>

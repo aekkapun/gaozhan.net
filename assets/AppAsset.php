@@ -24,7 +24,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/main.js',
         'js/bookmark.js',
-        'js/vote.js',
+        'js/like.js',
     ];
     public $depends = [
         YiiAsset::class,

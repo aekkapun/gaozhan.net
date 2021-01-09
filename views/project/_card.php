@@ -4,7 +4,7 @@
  */
 
 use app\widgets\bookmark\Bookmark;
-use app\widgets\Vote;
+use app\widgets\Like;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -33,5 +33,5 @@ $bgImg = Yii::$app->request->baseUrl . '/img/project_no_image.png';
     </p>
 
     <?= Bookmark::widget(['project' => $model]) ?>
-    <?= Vote::widget(['project' => $model]) ?>
+    <?= Like::widget(['project' => $model]) ?>
 </article>
