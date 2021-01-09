@@ -4,6 +4,7 @@ use yii\web\UrlRule;
 
 return [
     'bookmarks' => 'project/bookmarks',
+    'rss' => 'project/rss',
     'tags/<tags:\w+[\w-]+>' => 'project/list',
     'projects' => 'project/list',
     'projects/<uuid:\w+>/<slug>' => 'project/view',
