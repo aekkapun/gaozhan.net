@@ -62,7 +62,7 @@ return [
     'Project added!' => '添加项目成功!',
     'Project deleted.' => '删除项目成功.',
     'Projects' => '项目',
-    'Projects built with Yii' => '搜罗天下高质量网站',
+    'Projects built with Yii' => '发掘世界顶级网站与创意',
     'Publish' => '发布',
     'Published' => '发布',
     'Re-crop image' => '重新编辑图片',
