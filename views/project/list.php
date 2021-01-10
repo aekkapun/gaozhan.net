@@ -56,6 +56,7 @@ $this->title = Yii::t('project', 'Projects');
                 'item' => '.project',
                 'triggerOffset' => 100,
                 'spinnerTemplate' => '<div class="ias-spinner" style="width:100%; text-align: center;"><img src="{src}"/></div>',
+                'noneLeftTemplate' => '<div class="ias-noneleft" style="width:100%; text-align: center;">{text}</div>',
                 'triggerTemplate' => '<div class="ias-trigger" style="width:100%; text-align: center; cursor: pointer;"><a>{text}</a></div>',
                 'eventOnRendered'=>'function(){lazyLoadInstance.update();}'
             ]
