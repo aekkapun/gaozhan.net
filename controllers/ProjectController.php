@@ -197,7 +197,7 @@ class ProjectController extends Controller
         $feed->setManagingEditor(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);
 
         foreach ($projects as $project) {
-            $url = Url::to(['project/view', 'uuid' => $project->uuid, 'slug' => $project->slug], true);
+            $url = Url::to(['project/view', 'uuid' => $project->uuid], true);
             $item = new Item();
             $item->title = $project->title;
             $item->link = $url;
@@ -332,7 +332,7 @@ class ProjectController extends Controller
             }
         }
 
-        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid]);
     }
 
     /**
@@ -361,7 +361,7 @@ class ProjectController extends Controller
             }
         }
 
-        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid]);
     }
 
     /**
@@ -398,24 +398,19 @@ class ProjectController extends Controller
             $session->addFlash('error', Html::errorSummary($project, ['showAllErrors' => true]));
         }
         
-        return $this->redirect(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
+        return $this->redirect(['view', 'uuid' => $project->uuid]);
     }
 
     /**
      * @param string $uuid
-     * @param string $slug
      * @return string|Response
      * @throws NotFoundHttpException
      */
-    public function actionView($uuid, $slug)
+    public function actionView($uuid)
     {
         $project = $this->findModel([
             'uuid' => $uuid,
         ]);
-
-        if ($project->slug !== $slug) {
-            return $this->redirect(['view', 'uuid' => $uuid, 'slug' => $project->slug], 301);
-        }
 
         return $this->render('view', [
             'model' => $project,
@@ -544,7 +539,7 @@ class ProjectController extends Controller
             Yii::$app->session->setFlash('error', Yii::t('comment', 'Failed to delete comment.'));
         }
         
-        $backUrl = Yii::$app->request->referrer ?: Url::to(['view', 'uuid' => $project->uuid, 'slug' => $project->slug]);
+        $backUrl = Yii::$app->request->referrer ?: Url::to(['view', 'uuid' => $project->uuid]);
         
         return $this->redirect($backUrl);
     }

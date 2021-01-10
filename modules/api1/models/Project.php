@@ -55,7 +55,7 @@ class Project extends \app\models\Project implements Linkable
     public function getLinks()
     {
         return [
-            Link::REL_SELF => Url::to(['/project/view', 'uuid' => $this->uuid, 'slug' => $this->slug], true),
+            Link::REL_SELF => Url::to(['/project/view', 'uuid' => $this->uuid], true),
         ];
     }
 }

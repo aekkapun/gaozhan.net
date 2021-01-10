@@ -194,7 +194,7 @@ class SiteController extends Controller
                 ->from('project')->where(['status'=>20]);
 
             foreach ($projectQuery->each() as $project) {
-                $sitemap->writeUrl(['project/view', 'uuid' => $project['uuid'], 'slug' => $project['slug']]);
+                $sitemap->writeUrl(['project/view', 'uuid' => $project['uuid']]);
             }
             $tagQuery = (new\yii\db\Query())
                 ->from('tag');

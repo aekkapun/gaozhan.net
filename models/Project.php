@@ -647,7 +647,7 @@ class Project extends ActiveRecord implements Linkable, ObjectIdentityInterface
      */
     public function getUrl($params = [])
     {
-        return array_merge(['project/view', 'id' => $this->id, 'slug' => $this->slug], $params);
+        return array_merge(['project/view', 'id' => $this->id], $params);
     }
 
     /**

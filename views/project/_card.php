@@ -18,7 +18,7 @@ $bgImg = Yii::$app->request->baseUrl . '/img/project_no_image.png';
 
     </a>
 
-    <a class="details" href="<?= Url::to(['project/view', 'uuid' => $model->uuid, 'slug' => $model->slug]) ?>">
+    <a class="details" href="<?= Url::to(['project/view', 'uuid' => $model->uuid]) ?>">
         <h1>
             <span class="text-muted glyphicon glyphicon-new-window" aria-hidden="true"></span>
             <?= Html::decode($model->title) ?>

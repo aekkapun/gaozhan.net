@@ -41,8 +41,7 @@ class ProjectShareJob extends BaseObject implements JobInterface
 
         $projectUrl = Url::to([
             'project/view',
-            'id' => $project->id,
-            'slug' => $project->slug
+            'uuid' => $project->uuid
         ], true);
 
         // The maximum message length is 140 characters. For URL you need 23 characters.
