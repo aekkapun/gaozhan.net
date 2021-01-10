@@ -159,7 +159,8 @@ AppAsset::register($this);
             </div>
 
             <div class="right">
-                <?= Yii::powered() ?> | <a href="https://www.bestyii.com">Yii 中文社区</a>
+                <?= Yii::$app->params['beian'] ?>
+                 | <?= Yii::powered() ?> | <a href="https://www.bestyii.com">Yii 中文社区</a>
             </div>
         </div>
     </footer>
