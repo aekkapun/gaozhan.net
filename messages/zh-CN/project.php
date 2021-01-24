@@ -74,6 +74,7 @@ return [
     'Status' => '状态',
     'Tag ID' => '标签 ID',
     'Tags' => '标签',
+    'Popular tags' => '热门标签',
     'The project has been moved to draft.' => '该项目已移至草稿.',
     'Title' => '标题',
     'Top {n}' => 'Top {n}',

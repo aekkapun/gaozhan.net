@@ -89,28 +89,28 @@ class ProjectController extends Controller
         $filterForm = new ProjectFilterForm();
         $filterForm->load(Yii::$app->request->get());
 
-        $tagsDataProvider = new ActiveDataProvider([
-            'query' => Tag::find()->top(10),
-            'pagination' => false,
-        ]);
-
         return $this->render('list', [
             'dataProvider' => $filterForm->getDataProvider(),
-            'tagsDataProvider' => $tagsDataProvider,
             'filterForm' => $filterForm,
         ]);
     }
 
     public function actionTags()
     {
-        $maxFrequencyTag = Tag::find()->max('frequency');
+
+        $maxFrequency = Tag::find()->max('frequency');
+        $popularTagsDataProvider = new ActiveDataProvider([
+            'query' => Tag::find()->top(10),
+            'pagination' => false,
+        ]);
         $tagsDataProvider = new ActiveDataProvider([
             'query' => Tag::find()->orderBy(['name' => SORT_ASC]),
             'pagination' => false,
         ]);
 
         return $this->render('tags', [
-            'maxFrequencyTag'=>$maxFrequencyTag,
+            'maxFrequency'=>$maxFrequency,
+            'popularTagsDataProvider' => $popularTagsDataProvider,
             'tagsDataProvider' => $tagsDataProvider,
         ]);
     }
