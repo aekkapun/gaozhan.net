@@ -100,16 +100,21 @@ class ProjectController extends Controller
             'filterForm' => $filterForm,
         ]);
     }
-public function actionTags(){
-    $tagsDataProvider = new ActiveDataProvider([
-        'query' => Tag::find(),
-        'pagination' => false,
-    ]);
 
-    return $this->render('tags', [
-        'tagsDataProvider' => $tagsDataProvider,
-    ]);
-}
+    public function actionTags()
+    {
+        $maxFrequencyTag = Tag::find()->max('frequency');
+        $tagsDataProvider = new ActiveDataProvider([
+            'query' => Tag::find()->orderBy(['name' => SORT_ASC]),
+            'pagination' => false,
+        ]);
+
+        return $this->render('tags', [
+            'maxFrequencyTag'=>$maxFrequencyTag,
+            'tagsDataProvider' => $tagsDataProvider,
+        ]);
+    }
+
     /**
      * Return Top projects.
      *
@@ -118,7 +123,7 @@ public function actionTags(){
     public function actionTopProjects()
     {
         $maxTopProjects = Yii::$app->params['project.maxTopProjects'];
-        
+
         $dataProvider = new ActiveDataProvider([
             'pagination' => false,
             'query' => Project::find()
@@ -128,8 +133,8 @@ public function actionTags(){
                 ->innerJoin([
                     'v' => Vote::find()
                         ->select([
-                            'project_id', 
-                            'sumValue' => new Expression('SUM(value)'), 
+                            'project_id',
+                            'sumValue' => new Expression('SUM(value)'),
                             'countVote' => new Expression('COUNT(*)')
                         ])
                         ->groupBy('project_id')
@@ -140,28 +145,28 @@ public function actionTags(){
                     'v.countVote' => SORT_DESC,
                 ])
                 ->limit($maxTopProjects)
-        ]); 
+        ]);
 
         return $this->render('topProjects', [
             'dataProvider' => $dataProvider,
             'maxTopProjects' => $maxTopProjects
         ]);
     }
-    
+
     /**
      * Return bookmark projects.
-     * 
+     *
      * @return string
      */
     public function actionBookmarks()
     {
         /** @var User $user */
         $user = Yii::$app->user->identity;
-        
+
         $dataProvider = new ActiveDataProvider([
             'query' => $user->getBookmarkedProjects(),
         ]);
-        
+
         return $this->render('bookmarks', [
             'dataProvider' => $dataProvider
         ]);
@@ -200,7 +205,7 @@ public function actionTags(){
         $feed->title = Yii::$app->params['siteName'];
         $feed->link = Url::to('/', true);
         $feed->selfLink = Url::to(['/rss'], true);
-        $feed->description =  Yii::$app->params['description'];
+        $feed->description = Yii::$app->params['description'];
         $feed->language = 'zh-CN';
         $feed->setWebMaster(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);
         $feed->setManagingEditor(Yii::$app->params['adminEmail'], Yii::$app->params['siteName']);
@@ -331,9 +336,9 @@ public function actionTags(){
         }
 
         $session = Yii::$app->session;
-        
+
         if ($project->publish()) {
-            $session->setFlash('success', Yii::t('project', 'Project added!'));   
+            $session->setFlash('success', Yii::t('project', 'Project added!'));
         } else {
             $session->setFlash('error', Yii::t('project', 'Failed to update project.'));
             if ($project->hasErrors()) {
@@ -360,7 +365,7 @@ public function actionTags(){
         }
 
         $session = Yii::$app->session;
-        
+
         if ($project->draft()) {
             $session->setFlash('success', Yii::t('project', 'The project has been moved to draft.'));
         } else {
@@ -391,12 +396,12 @@ public function actionTags(){
         }
 
         $session = Yii::$app->session;
-        
+
         if ($project->remove()) {
             $session->setFlash('success', Yii::t('project', 'Project deleted.'));
-            
+
             if (in_array(Yii::$app->user->id, array_column($project->users, 'id'))) {
-                return $this->redirect(['/user/view', 'id' => Yii::$app->user->id]);    
+                return $this->redirect(['/user/view', 'id' => Yii::$app->user->id]);
             }
 
             return $this->redirect('list');
@@ -406,7 +411,7 @@ public function actionTags(){
         if ($project->hasErrors()) {
             $session->addFlash('error', Html::errorSummary($project, ['showAllErrors' => true]));
         }
-        
+
         return $this->redirect(['view', 'uuid' => $project->uuid]);
     }
 
@@ -532,7 +537,7 @@ public function actionTags(){
         if ($comment === null) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        
+
         if (!UserPermissions::canManageComments()) {
             throw new ForbiddenHttpException(Yii::t('comment', 'You can not delete this comment.'));
         }
@@ -541,15 +546,15 @@ public function actionTags(){
         if ($project === null || !$project instanceof Project) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        
+
         if ($comment->delete()) {
             Yii::$app->session->setFlash('success', Yii::t('comment', 'Comment deleted.'));
         } else {
             Yii::$app->session->setFlash('error', Yii::t('comment', 'Failed to delete comment.'));
         }
-        
+
         $backUrl = Yii::$app->request->referrer ?: Url::to(['view', 'uuid' => $project->uuid]);
-        
+
         return $this->redirect($backUrl);
     }
 }

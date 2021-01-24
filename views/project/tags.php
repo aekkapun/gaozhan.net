@@ -18,17 +18,14 @@ $this->title = Yii::t('project', 'Tags');
         <?= ListView::widget([
             'dataProvider' => $tagsDataProvider,
             'layout' => '{items}',
-            'options' => ['class' => 'list'],
-            'itemOptions' => ['tag'=>'span','class' => 'item'],
-            'itemView' => function ($model)  {
+            'options' => ['tag' => 'ul', 'class' => 'list-group'],
+            'itemOptions' => ['tag' => 'li', 'class' => 'list-group-item'],
+            'itemView' => function ($model) use ($maxFrequencyTag) {
                 /** @var Tag $model */
-
-                return Html::a(
-                    '<span class="name">' . Html::encode($model->name) . '</span>' .
-                    ' <span class="badge">' . $model->frequency . '</span>',
-                    ['/project/list', 'tags' => $model->name],
-                    ['class'=>'btn btn-default']
-                );
+                return Html::a(Html::tag('span', Html::encode($model->name), ['class' => 'name']),
+                        ['/project/list', 'tags' => $model->name])
+                    . Html::tag('span', Html::encode($model->frequency), ['class' => 'badge'])
+                    . Html::tag('div', '', ['class' => 'percent', 'style' => 'width:' . ($model->frequency / ($maxFrequencyTag*1.1) * 100) . '%']);
             }
         ]) ?>
     </div>
