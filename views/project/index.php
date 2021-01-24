@@ -12,20 +12,27 @@ use \yii\widgets\ListView;
 $this->title = Yii::t('project', 'Projects built with Yii');
 ?>
 <?php if (Yii::$app->user->isGuest) : ?>
-    <div class=" intro">
-        <h1 class="mt-0">
-            发掘世界顶级网站与创意
-        </h1>
-        <p class="lead text-muted">
-            这是高质量网站分享平台让更多设计湿获得灵感
-        </p>
 
-        <?= Html::a(
-            Yii::t('project', 'Made one? Share it!'),
-            ['project/create'],
-            ['class' => 'add-project']
-        ) ?>
+
+    <div class=" intro">
+        <div class="container">
+            <div class="col-md-12">
+                <h1 class="mt-0">
+                    发掘世界顶级网站与创意
+                </h1>
+                <p class="lead text-muted">
+                    这是高质量网站分享平台让更多设计湿获得灵感
+                </p>
+
+                <?= Html::a(
+                    Yii::t('project', 'Made one? Share it!'),
+                    ['project/create'],
+                    ['class' => 'add-project']
+                ) ?>
+            </div>
+        </div>
     </div>
+
 <?php endif; ?>
 
 <div class="project-index">
