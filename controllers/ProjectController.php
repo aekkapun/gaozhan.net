@@ -100,7 +100,16 @@ class ProjectController extends Controller
             'filterForm' => $filterForm,
         ]);
     }
+public function actionTags(){
+    $tagsDataProvider = new ActiveDataProvider([
+        'query' => Tag::find(),
+        'pagination' => false,
+    ]);
 
+    return $this->render('tags', [
+        'tagsDataProvider' => $tagsDataProvider,
+    ]);
+}
     /**
      * Return Top projects.
      *

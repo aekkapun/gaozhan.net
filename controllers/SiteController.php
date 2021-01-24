@@ -187,6 +187,7 @@ class SiteController extends Controller
             $sitemap->writeUrl(['site/auth']);
             $sitemap->writeUrl(['project/list']);
             $sitemap->writeUrl(['project/top-projects']);
+            $sitemap->writeUrl(['tags']);
 
 // or to iterate the row one by one
 
