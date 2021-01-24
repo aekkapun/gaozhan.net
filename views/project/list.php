@@ -11,7 +11,7 @@ use yii\bootstrap\Alert;
 /* @var $tagsDataProvider yii\data\ActiveDataProvider */
 /* @var $filterForm \app\models\ProjectFilterForm */
 /* @var $this yii\web\View */
-$this->title = Yii::t('project', 'Projects');
+$this->title = Yii::$app->request->get('tags') ? Yii::$app->request->get('tags') : Yii::t('app', 'Explore projects');
 ?>
 <div class="projects-list">
     <div class="projects">
@@ -58,7 +58,7 @@ $this->title = Yii::t('project', 'Projects');
                 'spinnerTemplate' => '<div class="ias-spinner" style="width:100%; text-align: center;"><img src="{src}"/></div>',
                 'noneLeftTemplate' => '<div class="ias-noneleft" style="width:100%; text-align: center;">{text}</div>',
                 'triggerTemplate' => '<div class="ias-trigger" style="width:100%; text-align: center; cursor: pointer;"><a>{text}</a></div>',
-                'eventOnRendered'=>'function(){lazyLoadInstance.update();}'
+                'eventOnRendered' => 'function(){lazyLoadInstance.update();}'
             ]
         ]) ?>
     </div>
